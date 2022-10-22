@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.arya.e_kinerja.ui.splash.SplashFragment"
+        android:label="Splash Screen"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.arya.e_kinerja.ui.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.arya.e_kinerja.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/tugasAktivitasFragment"
+        android:name="com.arya.e_kinerja.ui.tugas_aktivitas.TugasAktivitasFragment"
+        android:label="Tugas Aktivitas"
+        tools:layout="@layout/fragment_tugas_aktivitas" >
+        <action
+            android:id="@+id/action_tugasAktivitasFragment_to_cariAktivitasFragment"
+            app:destination="@id/cariAktivitasFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/laporanAktivitasFragment"
+        android:name="com.arya.e_kinerja.ui.laporan_aktivitas.LaporanAktivitasFragment"
+        android:label="Laporan Aktivitas"
+        tools:layout="@layout/fragment_laporan_aktivitas" />
+
+    <fragment
+        android:id="@+id/penilaianAktivitasFragment"
+        android:name="com.arya.e_kinerja.ui.penilaian_aktivitas.PenilaianAktivitasFragment"
+        android:label="Penilaian Aktivitas"
+        tools:layout="@layout/fragment_penilaian_aktivitas" />
+
+    <fragment
+        android:id="@+id/cariAktivitasFragment"
+        android:name="com.arya.e_kinerja.ui.cari_aktivitas.CariAktivitasFragment"
+        android:label="Cari Aktivitas"
+        tools:layout="@layout/fragment_cari_aktivitas" >
+        <action
+            android:id="@+id/action_cariAktivitasFragment_to_inputAktivitasFragment"
+            app:destination="@id/inputAktivitasFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inputAktivitasFragment"
+        android:name="com.arya.e_kinerja.ui.input_aktivitas.InputAktivitasFragment"
+        android:label="Input Aktivitas"
+        tools:layout="@layout/fragment_input_aktivitas" >
+        <argument
+            android:name="currentAktivitas"
+            app:argType="com.arya.e_kinerja.data.remote.response.Aktivitas" />
+        <action
+            android:id="@+id/action_inputAktivitasFragment_to_tugasAktivitasFragment"
+            app:destination="@id/tugasAktivitasFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
