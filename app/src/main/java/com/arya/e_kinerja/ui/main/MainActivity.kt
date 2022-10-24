@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.databinding.ActivityMainBinding
 import com.arya.e_kinerja.databinding.NavHeaderMainBinding
+import com.arya.e_kinerja.ui.dashboard.DashboardFragment
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -123,4 +125,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+//    override fun onBackPressed() {
+//        navController.popBackStack()
+//
+//        super.onBackPressed()
+//    }
 }
