@@ -1,14 +1,15 @@
 package com.arya.e_kinerja.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -16,9 +17,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.databinding.ActivityMainBinding
 import com.arya.e_kinerja.databinding.NavHeaderMainBinding
-import com.arya.e_kinerja.ui.dashboard.DashboardFragment
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -126,9 +127,4 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-//    override fun onBackPressed() {
-//        navController.popBackStack()
-//
-//        super.onBackPressed()
-//    }
 }
