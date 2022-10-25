@@ -1,6 +1,5 @@
 package com.arya.e_kinerja.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData

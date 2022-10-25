@@ -46,8 +46,8 @@
         android:label="Tugas Aktivitas"
         tools:layout="@layout/fragment_tugas_aktivitas" >
         <action
-            android:id="@+id/action_tugasAktivitasFragment_to_cariAktivitasFragment"
-            app:destination="@id/cariAktivitasFragment" />
+            android:id="@+id/action_tugasAktivitasFragment_to_inputAktivitasFragment"
+            app:destination="@id/inputAktivitasFragment" />
     </fragment>
 
     <fragment
@@ -63,23 +63,10 @@
         tools:layout="@layout/fragment_penilaian_aktivitas" />
 
     <fragment
-        android:id="@+id/cariAktivitasFragment"
-        android:name="com.arya.e_kinerja.ui.cari_aktivitas.CariAktivitasFragment"
-        android:label="Cari Aktivitas"
-        tools:layout="@layout/fragment_cari_aktivitas" >
-        <action
-            android:id="@+id/action_cariAktivitasFragment_to_inputAktivitasFragment"
-            app:destination="@id/inputAktivitasFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/inputAktivitasFragment"
         android:name="com.arya.e_kinerja.ui.input_aktivitas.InputAktivitasFragment"
         android:label="Input Aktivitas"
         tools:layout="@layout/fragment_input_aktivitas" >
-        <argument
-            android:name="currentAktivitas"
-            app:argType="com.arya.e_kinerja.data.remote.response.Aktivitas" />
         <action
             android:id="@+id/action_inputAktivitasFragment_to_tugasAktivitasFragment"
             app:destination="@id/tugasAktivitasFragment"

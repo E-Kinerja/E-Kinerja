@@ -78,13 +78,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <com.google.android.material.textfield.TextInputEditText
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/edt_aktivitas"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:hint="Aktivitas"-->
+<!--                android:padding="16dp" />-->
+
+            <AutoCompleteTextView
                 android:id="@+id/edt_aktivitas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Aktivitas"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:hint="@null"
+                android:text="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

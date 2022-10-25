@@ -1,14 +1,16 @@
 package com.arya.e_kinerja.ui.input_aktivitas
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.arya.e_kinerja.R
+import com.arya.e_kinerja.adapter.CustomArrayAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentInputAktivitasBinding
 import com.arya.e_kinerja.utils.openMaterialDatePicker
@@ -23,7 +25,10 @@ class InputAktivitasFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: InputAktivitasViewModel by viewModels()
-    private val args: InputAktivitasFragmentArgs by navArgs()
+
+    private lateinit var customArrayAdapter: CustomArrayAdapter
+
+    private var idAktivitas = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +40,6 @@ class InputAktivitasFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.edtAktivitas.setText(args.currentAktivitas.bkNamaKegiatan)
-        binding.edtSatuan.setText(args.currentAktivitas.bkSatuanOutput)
 
         binding.edtTanggal.setOnClickListener {
             openMaterialDatePicker(
@@ -66,7 +68,7 @@ class InputAktivitasFragment : Fragment() {
         binding.btnSimpan.setOnClickListener {
             viewModel.postInputAktivitas(
                 binding.edtTanggal.text.toString(),
-                args.currentAktivitas.id.toString(),
+                idAktivitas.toString(),
                 binding.edtCatatan.text.toString(),
                 binding.edtOutput.text.toString(),
                 binding.edtJamMulai.text.toString(),
@@ -89,6 +91,44 @@ class InputAktivitasFragment : Fragment() {
                         is Result.Error -> {}
                     }
             }
+        }
+
+        binding.edtAktivitas.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0 != null) {
+                    if (p0.length >= 3) {
+                        viewModel.postCariAktivitas(p0.toString()).observe(viewLifecycleOwner) { result ->
+                            if (result != null) {
+                                when (result) {
+                                    is Result.Loading -> {}
+                                    is Result.Success -> {
+                                        customArrayAdapter = CustomArrayAdapter(
+                                            requireContext(),
+                                            R.layout.item_dropdown,
+                                            result.data
+                                        )
+                                        binding.edtAktivitas.setAdapter(customArrayAdapter)
+                                    }
+                                    is Result.Error -> {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+        })
+
+        binding.edtAktivitas.setOnItemClickListener { _, _, position, _ ->
+            val aktivitas = customArrayAdapter.getItem(position)
+
+            idAktivitas = aktivitas?.id ?: 0
+
+            binding.edtAktivitas.setText(aktivitas?.bkNamaKegiatan)
+            binding.edtSatuan.setText(aktivitas?.bkSatuanOutput)
         }
     }
 
