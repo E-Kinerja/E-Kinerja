@@ -11,6 +11,16 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="nama">Nama</string>
+    <string name="nip">NIP</string>
+    <string name="jabatan">Jabatan</string>
+    <string name="instansi">Instansi</string>
+    <string name="title_penilai">PEJABAT PENILAI KINERJA</string>
+    <string name="title_pegawai">PEGAWAI YANG DINILAI</string>
+    <string name="print_aktivitas">Print Aktivitas</string>
+    <string name="total_aktivitas">Total Aktivitas</string>
+    <string name="persentase">0 %</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pilih_bawahan">Pilih Bawahan</string>
