@@ -37,7 +37,7 @@ class LaporanAktivitasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var (currentBulan, currentTahun) = getCurrentDate()
+        val (currentBulan, currentTahun) = getCurrentDate()
 
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(

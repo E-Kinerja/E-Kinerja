@@ -33,7 +33,7 @@
                     android:text="@string/title_penilai"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:background="#E8E9EC"/>
+                    android:background="@color/grey"/>
 
             </TableRow>
 
@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:padding="10dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:text="@string/nama"
                     android:textColor="@color/black" />
 
@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:padding="10dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:text="@string/nip"
                     android:textColor="@color/black" />
 
@@ -78,7 +78,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:padding="10dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:text="@string/jabatan"
                     android:textColor="@color/black" />
 
@@ -110,7 +110,7 @@
 
                 <TextView
                     android:layout_span="2"
-                    android:background="#E8E9EC"
+                    android:background="@color/grey"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/title_pegawai"
@@ -123,7 +123,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:padding="10dp"
                     android:text="@string/nama"
                     android:textColor="@color/black" />
@@ -141,7 +141,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:padding="10dp"
                     android:text="@string/nip"
                     android:textColor="@color/black" />
@@ -159,7 +159,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:padding="10dp"
                     android:text="@string/jabatan"
                     android:textColor="@color/black" />
@@ -177,7 +177,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:background="#E8FFE8"
+                    android:background="@color/light_green"
                     android:padding="10dp"
                     android:text="@string/instansi"
                     android:textColor="@color/black" />
@@ -255,6 +255,7 @@
             android:textAllCaps="false"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:backgroundTint="@color/blue"
             app:icon="@drawable/ic_print"
             app:iconGravity="textStart"
             app:layout_constraintTop_toBottomOf="@id/inp_bulan"
@@ -266,7 +267,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardBackgroundColor="#FFC107"
+            app:cardBackgroundColor="@color/yellow"
             app:cardCornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
