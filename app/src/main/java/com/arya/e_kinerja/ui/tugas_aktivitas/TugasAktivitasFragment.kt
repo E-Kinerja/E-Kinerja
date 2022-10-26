@@ -40,7 +40,6 @@ class TugasAktivitasFragment : Fragment() {
 
         tugasAdapter = TugasAdapter()
         binding.rvTugasAktivitas.layoutManager = LinearLayoutManager(context)
-        // binding.rvTugasAktivitas.setHasFixedSize(true)
         binding.rvTugasAktivitas.adapter = tugasAdapter
 
         binding.btnInputAktivitas.setOnClickListener {

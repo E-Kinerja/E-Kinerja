@@ -1,14 +1,19 @@
 package com.arya.e_kinerja.adapter
 
+import android.R.color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.data.remote.response.TugasAktivitasResponse
 import com.arya.e_kinerja.databinding.ItemTugasBinding
+
 
 class TugasAdapter : ListAdapter<TugasAktivitasResponse, TugasAdapter.TugasAktivitasViewHolder>(DIFF_CALLBACK) {
 
@@ -39,6 +44,21 @@ class TugasAdapter : ListAdapter<TugasAktivitasResponse, TugasAdapter.TugasAktiv
             binding.tvCatatan.text = tugasAktivitasResponse.detailakt
             binding.tvOutput.text =
                 "${tugasAktivitasResponse.output} ${tugasAktivitasResponse.aktivitas?.bkSatuanOutput}"
+            binding.tvStatus.apply {
+                if(tugasAktivitasResponse.status.toString() === "true") {
+                    text = "Sudah dinilai"
+                    setTextColor(resources.getColor(R.color.cyan))
+                    setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_check, 0, 0, 0
+                    )
+                } else {
+                    text = "Belum dinilai"
+                    setTextColor(resources.getColor(R.color.red))
+                    setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_cancel, 0, 0, 0
+                    )
+                }
+            }
 
             binding.tvSelengkapnya.setOnClickListener {
                 isExpanded = !isExpanded
@@ -51,8 +71,13 @@ class TugasAdapter : ListAdapter<TugasAktivitasResponse, TugasAdapter.TugasAktiv
                     binding.tvKetOutput.visibility = View.VISIBLE
                     binding.tvOutput.visibility = View.VISIBLE
 
-                    binding.btnEdit.visibility = View.VISIBLE
-                    binding.btnHapus.visibility = View.VISIBLE
+                    if (tugasAktivitasResponse.status.toString() === "true") {
+                        binding.btnEdit.visibility = View.GONE
+                        binding.btnHapus.visibility = View.GONE
+                    } else {
+                        binding.btnEdit.visibility = View.VISIBLE
+                        binding.btnHapus.visibility = View.VISIBLE
+                    }
 
                     binding.tvSelengkapnya.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_arrow_up, 0, 0, 0
@@ -72,6 +97,17 @@ class TugasAdapter : ListAdapter<TugasAktivitasResponse, TugasAdapter.TugasAktiv
                     binding.tvSelengkapnya.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_arrow_down, 0, 0, 0
                     )
+                }
+            }
+
+            when(tugasAktivitasResponse.status) {
+                null -> {
+                    binding.btnEdit.visibility = View.GONE
+                    binding.btnHapus.visibility = View.GONE
+                }
+                else -> {
+                    binding.btnEdit.visibility = View.GONE
+                    binding.btnHapus.visibility = View.GONE
                 }
             }
 
