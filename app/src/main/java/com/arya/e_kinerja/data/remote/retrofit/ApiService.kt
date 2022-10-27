@@ -37,4 +37,37 @@ interface ApiService {
         @Query("bulan") bulan: String,
         @Query("tahun") tahun: String
     ): List<TugasAktivitasResponse>
+
+    @DELETE("/api/del-aktivitas/{id}")
+    suspend fun deleteTugasAktivitas(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): DeleteTugasAktivitasResponse
+
+    @FormUrlEncoded
+    @POST("/api/edit-aktivitas")
+    suspend fun postEditAktivitas(
+        @Header("Authorization") token: String,
+        @Field("id") id: String,
+        @Field("nip") nip: String,
+        @Field("tanggal") tanggal: String,
+        @Field("id_akt") idAkt: String,
+        @Field("catatan") catatan: String,
+        @Field("output") output: String,
+        @Field("jam_mulai") jamMulai: String,
+        @Field("jam_berakhir") jamBerakhir: String
+    ): EditAktivitasResponse
+
+    @GET("/api/total-aktivitas")
+    suspend fun getTotalAktivitas(
+        @Header("Authorization") token: String,
+        @Query("id_pns") idPns: String
+    ): GetTotalAktivitasResponse
+
+    @GET("api/aktivitas-bawahan")
+    suspend fun getListBawahan(
+        @Header("Authorization") token: String,
+        @Query("nip") nip: String,
+        @Query("kode_jabatan") kodeJabatan: String
+    ): GetListBawahanResponse
 }

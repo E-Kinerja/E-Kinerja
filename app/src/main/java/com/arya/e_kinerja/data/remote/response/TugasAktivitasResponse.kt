@@ -3,7 +3,9 @@ package com.arya.e_kinerja.data.remote.response
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class TugasAktivitasResponse(
 	@field:SerializedName("id")
 	val id: Int? = null,
@@ -33,19 +35,18 @@ data class TugasAktivitasResponse(
 	val idNip: Int? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null,
-
-	@field:SerializedName("aktivitas")
-	val aktivitas: Aktivitas? = null,
+	val status: Boolean? = null,
 
 	@field:SerializedName("created_at")
 	val createdAt: String? = null,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: String? = null,
-)
 
-@Parcelize
+	@field:SerializedName("aktivitas")
+	val aktivitas: @RawValue Aktivitas? = null
+) : Parcelable
+
 data class Aktivitas(
 	@field:SerializedName("id")
 	val id: Int? = null,
@@ -90,5 +91,5 @@ data class Aktivitas(
 	val createdAt: String? = null,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-) : Parcelable
+	val updatedAt: String? = null
+)

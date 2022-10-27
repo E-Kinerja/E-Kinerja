@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Tanggal"
+            android:text="@string/tanggal"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -43,11 +43,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="Tanggal"
+                android:hint="@string/tanggal"
                 android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
-            android:text="Aktivitas"
+            android:text="@string/aktivitas"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -78,22 +79,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/edt_aktivitas"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:hint="Aktivitas"-->
-<!--                android:padding="16dp" />-->
-
             <AutoCompleteTextView
                 android:id="@+id/edt_aktivitas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="16dp"
-                android:hint="@null"
-                android:text="" />
+                android:textSize="14sp"
+                android:inputType="text"
+                android:hint="@string/aktivitas"
+                android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
-            android:text="Catatan"
+            android:text="@string/catatan"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -128,8 +122,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:inputType="text"
-                android:hint="Catatan"
+                android:hint="@string/catatan"
                 android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -140,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
-            android:text="Nilai Aktivitas"
+            android:text="@string/nilai_aktivitas"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -165,8 +160,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:inputType="text"
-                android:hint="Ouput"
+                android:hint="@string/output"
                 android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -189,8 +185,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:inputType="text"
-                android:hint="Satuan (Lembar, kebijakan, dll)"
+                android:hint="@string/satuan"
                 android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -201,7 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
-            android:text="Durasi"
+            android:text="@string/durasi"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -227,11 +224,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="Jam Mulai"
+                android:hint="@string/jam_mulai"
                 android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -255,11 +253,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="Jam Berakhir"
+                android:hint="@string/jam_berakhir"
                 android:padding="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -271,7 +270,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Simpan"
+            android:text="@string/simpan"
             android:textAllCaps="false"
             android:insetTop="0dp"
             android:insetBottom="0dp"

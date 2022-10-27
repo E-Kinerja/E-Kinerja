@@ -10,12 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arya.e_kinerja.R
-import com.arya.e_kinerja.adapter.TugasAdapter
+import com.arya.e_kinerja.adapter.TugasAktivitasAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentTugasAktivitasBinding
+import com.arya.e_kinerja.utils.dateFormat
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class TugasAktivitasFragment : Fragment() {
@@ -25,7 +24,10 @@ class TugasAktivitasFragment : Fragment() {
 
     private val viewModel: TugasAktivitasViewModel by viewModels()
 
-    private lateinit var tugasAdapter: TugasAdapter
+    private var currentBulan = dateFormat(null, "MM").toInt()
+    private var currentTahun = dateFormat(null, "yyyy").toInt()
+
+    private lateinit var tugasAktivitasAdapter: TugasAktivitasAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,43 +40,59 @@ class TugasAktivitasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tugasAdapter = TugasAdapter()
-        binding.rvTugasAktivitas.layoutManager = LinearLayoutManager(context)
-        binding.rvTugasAktivitas.adapter = tugasAdapter
+        setUpView()
+        setUpRecyclerView()
+        setUpAction()
+    }
 
-        binding.btnInputAktivitas.setOnClickListener {
+    private fun setUpView() {
+        binding.edtTahun.setText(currentTahun.toString())
+        binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
+    }
+
+    private fun setUpRecyclerView() {
+        tugasAktivitasAdapter = TugasAktivitasAdapter()
+        tugasAktivitasAdapter.onBtnEditClick = {
             findNavController().navigate(
-                R.id.action_tugasAktivitasFragment_to_inputAktivitasFragment
+                TugasAktivitasFragmentDirections
+                    .actionTugasAktivitasFragmentToInputAktivitasFragment(it)
             )
         }
 
-        var (currentBulan, currentTahun) = getCurrentDate()
+        tugasAktivitasAdapter.onBtnHapusClick = {
+            observeDeleteTugasAktivitas(it.id.toString())
+        }
 
-        binding.edtTahun.setText(currentTahun.toString())
-        binding.edtBulan.setText(
-            resources.getStringArray(R.array.bulan)[currentBulan - 1].toString()
-        )
+        binding.rvTugasAktivitas.layoutManager = LinearLayoutManager(context)
+        binding.rvTugasAktivitas.adapter = tugasAktivitasAdapter
+    }
+
+    private fun setUpAction() {
+        binding.btnInputAktivitas.setOnClickListener {
+            findNavController().navigate(
+                TugasAktivitasFragmentDirections
+                    .actionTugasAktivitasFragmentToInputAktivitasFragment(null)
+            )
+        }
 
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
             currentBulan = position + 1
-
-            getTugasAktivitas(currentBulan, currentTahun)
+            observeGetTugasAktivitas(currentBulan.toString(), currentTahun.toString())
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->
-            currentTahun = adapterView.adapter.getItem(position).toString().toInt()
-
-            getTugasAktivitas(currentBulan, currentTahun)
+            currentTahun = adapterView.adapter.getItem(position) as Int
+            observeGetTugasAktivitas(currentBulan.toString(), currentTahun.toString())
         }
     }
 
-    private fun getTugasAktivitas(bulan: Int, tahun: Int) {
-        viewModel.getTugasAktivitas(bulan.toString(), tahun.toString()).observe(viewLifecycleOwner) { result ->
+    private fun observeDeleteTugasAktivitas(id: String) {
+        viewModel.deleteTugasAktivitas(id).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        tugasAdapter.submitList(result.data)
+                        observeGetTugasAktivitas(currentBulan.toString(), currentTahun.toString())
                     }
                     is Result.Error -> {}
                 }
@@ -82,21 +100,18 @@ class TugasAktivitasFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun getCurrentDate(): Pair<Int, Int> {
-        val calendar = Calendar.getInstance()
-
-        val formatTahun = SimpleDateFormat("yyyy", Locale.getDefault())
-        val currentTahun = formatTahun.format(calendar.time).toInt()
-
-        val formatBulan = SimpleDateFormat("MM", Locale.getDefault())
-        val currentBulan = formatBulan.format(calendar.time).toInt()
-
-        return Pair(currentBulan, currentTahun)
+    private fun observeGetTugasAktivitas(bulan: String, tahun: String) {
+        viewModel.getTugasAktivitas(bulan, tahun).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        tugasAktivitasAdapter.submitList(result.data)
+                    }
+                    is Result.Error -> {}
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -111,11 +126,14 @@ class TugasAktivitasFragment : Fragment() {
         binding.edtBulan.setAdapter(adapterBulan)
         binding.edtTahun.setAdapter(adapterTahun)
 
-        getTugasAktivitas(
-            resources.getStringArray(R.array.bulan).indexOf(
-                binding.edtBulan.text.toString()
-            ) + 1,
-            binding.edtTahun.text.toString().toInt()
+        observeGetTugasAktivitas(
+            (arrayBulan.indexOf(binding.edtBulan.text.toString()) + 1).toString(),
+            binding.edtTahun.text.toString()
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

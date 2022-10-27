@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.data.remote.response.Aktivitas
 
-class CustomArrayAdapter(
+class AktivitasArrayAdapter(
     context: Context,
     layoutResourceId: Int,
     listAktivitas: List<Aktivitas>
@@ -30,20 +30,20 @@ class CustomArrayAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(
+        var view = convertView
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(
                 R.layout.item_dropdown, parent, false
             )
         }
 
-        val tvDropdownItem = convertView!!.findViewById<TextView>(R.id.tv_dropdown_item)
+        val tvDropdownItem = view!!.findViewById<TextView>(R.id.tv_dropdown_item)
 
         val aktivitas: Aktivitas? = getItem(position)
         if (aktivitas != null) {
             tvDropdownItem.text = aktivitas.bkNamaKegiatan
         }
 
-        return convertView
+        return view
     }
 }

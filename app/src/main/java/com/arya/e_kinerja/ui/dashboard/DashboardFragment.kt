@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.arya.e_kinerja.R
+import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,14 +30,30 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getSession().observe(viewLifecycleOwner) { session ->
-//            val mainActivity = (activity as MainActivity)
-//            mainActivity.setupNavDrawer(session.level.toString())
-//            mainActivity.setupNavHeader(session.nip.toString(), session.namaJabatan.toString())
+        observeGetSession()
+        observeGetTotalAktivitas()
+    }
 
+    private fun observeGetSession() {
+        viewModel.getSession().observe(viewLifecycleOwner) { session ->
             binding.tvNama.text = session.nama
             binding.tvNamaJabatan.text = session.namaJabatan
             binding.tvUnitKerja.text = session.unitKerja
+        }
+    }
+
+    private fun observeGetTotalAktivitas() {
+        viewModel.getTotalAktivitas().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        binding.tvPersentase.text =
+                            resources.getString(R.string.total_aktivitas, result.data.data)
+                    }
+                    is Result.Error -> {}
+                }
+            }
         }
     }
 

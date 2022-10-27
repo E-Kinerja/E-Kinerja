@@ -1,29 +1,54 @@
 <resources>
-    <string name="app_name">E-Kinerja</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">E-Kinerja Sidoarjo</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="logo_kabupaten_sidoarjo">Logo Kabupaten Sidoarjo</string>
+    <string name="silahkan_login">Silahkan Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="username_kosong">Masukkan username</string>
+    <string name="password_kosong">Mauskkan password</string>
 
+    <string name="loading">Loading…</string>
+
+    <string name="jabatan_anda">Jabatan Anda</string>
+
+    <string name="total_aktivitas">%s %%</string>
+    <string name="logo_profil">Logo profil</string>
+
+    <string name="pemberitahuan">Pemberitahuan</string>
+    <string name="pemberitahuan_1">Pengisian aktivitas harian periode 01 – 07 terakhir pada tanggal 08</string>
+    <string name="pemberitahuan_2">Pengisian aktivitas harian Periode 08 – 15 terakhir pada tanggal 16</string>
+    <string name="pemberitahuan_3">Pengisian aktivitas harian Periode 16 – 22 terakhir pada tanggal 23</string>
+    <string name="pemberitahuan_4">Pengisian aktivitas harian Periode 23 – 31 terakhir pada tanggal 01 bulan berikutnya</string>
+
+    <string name="input_aktivitas">Input Aktivitas</string>
+
+    <string name="tanggal">Tanggal</string>
+    <string name="aktivitas">Aktivitas</string>
+    <string name="catatan">Catatan</string>
+    <string name="nilai_aktivitas">Nilai Aktivitas</string>
+    <string name="output">Output</string>
+    <string name="satuan">Satuan (Lembar, kebijakan, dll)</string>
+    <string name="durasi">Durasi</string>
+    <string name="jam_mulai">Jam Mulai</string>
+    <string name="jam_berakhir">Jam Berakhir</string>
+    <string name="simpan">Simpan</string>
+    <string name="update">Update</string>
+
+    <string name="title_penilai">PEJABAT PENILAI KINERJA</string>
+    <string name="title_pegawai">PEGAWAI YANG DINILAI</string>
     <string name="nama">Nama</string>
     <string name="nip">NIP</string>
     <string name="jabatan">Jabatan</string>
     <string name="instansi">Instansi</string>
-    <string name="title_penilai">PEJABAT PENILAI KINERJA</string>
-    <string name="title_pegawai">PEGAWAI YANG DINILAI</string>
     <string name="print_aktivitas">Print Aktivitas</string>
-    <string name="total_aktivitas">Total Aktivitas</string>
-    <string name="persentase">0 %</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="pilih_bawahan">Pilih Bawahan</string>
+    <string name="edit">Edit</string>
+    <string name="hapus">Hapus</string>
+    <string name="selengkapnya">Selengkapnya</string>
+    <string name="sudah_dinilai">Sudah dinilai</string>
+    <string name="belum_dinilai">Belum dinilai</string>
 
     <string-array name="bulan">
         <item>Januari</item>

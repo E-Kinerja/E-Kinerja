@@ -5,10 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.arya.e_kinerja.data.local.datastore.SessionDataStore
 import com.arya.e_kinerja.data.local.entity.SessionEntity
-import com.arya.e_kinerja.data.remote.response.Aktivitas
-import com.arya.e_kinerja.data.remote.response.InputAktivitasResponse
-import com.arya.e_kinerja.data.remote.response.LoginResponse
-import com.arya.e_kinerja.data.remote.response.TugasAktivitasResponse
+import com.arya.e_kinerja.data.remote.response.*
 import com.arya.e_kinerja.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -37,6 +34,7 @@ class Repository @Inject constructor(
                     response.data?.level,
                     response.data?.nip,
                     response.data?.nama,
+                    response.data?.kodeJabatan,
                     response.data?.namaJabatan,
                     response.data?.unitKerja,
                     true
@@ -86,14 +84,93 @@ class Repository @Inject constructor(
     }
 
     fun getTugasAktivitas(
+        idPns: String?,
         bulan: String,
         tahun: String
     ): LiveData<Result<List<TugasAktivitasResponse>>> = liveData {
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
+            val response = if (idPns != null) {
+                apiService.getTugasAktivitas(token, idPns, bulan, tahun)
+            } else {
+                apiService.getTugasAktivitas(token, sessionDataStore.getSession().first().idPns.toString(), bulan, tahun)
+            }
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun deleteTugasAktivitas(
+        id: String
+    ): LiveData<Result<DeleteTugasAktivitasResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val token = sessionDataStore.getSession().first().token.toString()
+            val response = apiService.deleteTugasAktivitas(token, id)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun postEditAktivitas(
+        id: String,
+        tanggal: String,
+        idAkt: String,
+        catatan: String,
+        output: String,
+        jamMulai: String,
+        jamBerakhir: String
+    ): LiveData<Result<EditAktivitasResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val token = sessionDataStore.getSession().first().token.toString()
+            val nip = sessionDataStore.getSession().first().nip.toString()
+            val response = apiService.postEditAktivitas(
+                token,
+                id,
+                nip,
+                tanggal,
+                idAkt,
+                catatan,
+                output,
+                jamMulai,
+                jamBerakhir
+            )
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getTotalAktivitas(): LiveData<Result<GetTotalAktivitasResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val token = sessionDataStore.getSession().first().token.toString()
             val idPns = sessionDataStore.getSession().first().idPns.toString()
-            val response = apiService.getTugasAktivitas(token, idPns, bulan, tahun)
+            val response = apiService.getTotalAktivitas(
+                token,
+                idPns
+            )
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getListBawahanResponse(): LiveData<Result<GetListBawahanResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val token = sessionDataStore.getSession().first().token.toString()
+            val nip = sessionDataStore.getSession().first().nip.toString()
+            val kodeJabatan = sessionDataStore.getSession().first().kodeJabatan.toString()
+            val response = apiService.getListBawahan(
+                token,
+                nip,
+                kodeJabatan
+            )
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

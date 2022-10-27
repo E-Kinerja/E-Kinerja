@@ -37,26 +37,43 @@ class LoginFragment : Fragment() {
 
         loadingDialog = createLoadingDialog(requireContext(), layoutInflater)
 
+        setUpAction()
+    }
+
+    private fun setUpAction() {
         binding.btnLogin.setOnClickListener {
             val username = binding.edtUsername.text.toString()
             val password = binding.edtPassword.text.toString()
 
-            viewModel.postLogin(username, password).observe(viewLifecycleOwner) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                            loadingDialog.show()
-                        }
-                        is Result.Success -> {
-                            loadingDialog.dismiss()
+            when {
+                username.isEmpty() -> {
+                    binding.inpUsername.error = resources.getString(R.string.username_kosong)
+                }
+                password.isEmpty() -> {
+                    binding.inpPassword.error = resources.getString(R.string.password_kosong)
+                }
+                else -> {
+                    observePostLogin(username, password)
+                }
+            }
+        }
+    }
 
-                            findNavController().navigate(
-                                R.id.action_loginFragment_to_dashboardFragment
-                            )
-                        }
-                        is Result.Error -> {
-                            loadingDialog.dismiss()
-                        }
+    private fun observePostLogin(username: String, password: String) {
+        viewModel.postLogin(username, password).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        loadingDialog.show()
+                    }
+                    is Result.Success -> {
+                        loadingDialog.dismiss()
+                        findNavController().navigate(
+                            R.id.action_loginFragment_to_dashboardFragment
+                        )
+                    }
+                    is Result.Error -> {
+                        loadingDialog.dismiss()
                     }
                 }
             }

@@ -4,7 +4,8 @@
     android:id="@+id/card_notification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="4dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,17 +17,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:text="Pemberitahuan"
-            android:textSize="20sp"
+            android:text="@string/pemberitahuan"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#FFDC3546"
+            android:textColor="@color/red"
             android:textAlignment="center"
             android:drawablePadding="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:drawableStartCompat="@drawable/ic_tv_warning"
-            app:drawableTint="#FFDC3546" />
+            app:drawableStartCompat="@drawable/ic_warning"
+            app:drawableTint="@color/red" />
 
         <View
             android:id="@+id/divider_1"
@@ -45,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:text="Pengisian aktivitas harian periode 01 – 07 terakhir pada tanggal 08"
+            android:text="@string/pemberitahuan_1"
             android:textSize="14sp"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/tv_judul_pemberitahuan"
@@ -67,12 +68,12 @@
             android:id="@+id/tv_pemberitahuan_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
-            android:text="Pengisian aktivitas harian Periode 08 – 15 terakhir pada tanggal 16"
+            android:text="@string/pemberitahuan_2"
             android:textSize="14sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tv_pemberitahuan_1"
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -80,12 +81,12 @@
             android:id="@+id/tv_pemberitahuan_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
-            android:text="Pengisian aktivitas harian Periode 16 – 22 terakhir pada tanggal 23"
+            android:text="@string/pemberitahuan_3"
             android:textSize="14sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tv_pemberitahuan_2"
+            app:layout_constraintTop_toBottomOf="@id/divider_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -104,13 +105,13 @@
             android:id="@+id/tv_tv_pemberitahuan_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginHorizontal="16dp"
-            android:text="Pengisian aktivitas harian Periode 23 – 31 terakhir pada tanggal 01 bulan berikutnya"
+            android:text="@string/pemberitahuan_4"
             android:textSize="14sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tv_pemberitahuan_3"
+            app:layout_constraintTop_toBottomOf="@id/divider_3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

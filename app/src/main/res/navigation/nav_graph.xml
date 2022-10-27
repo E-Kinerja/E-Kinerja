@@ -72,5 +72,9 @@
             app:destination="@id/tugasAktivitasFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="tugasAktivitas"
+            app:argType="com.arya.e_kinerja.data.remote.response.TugasAktivitasResponse"
+            app:nullable="true" />
     </fragment>
 </navigation>

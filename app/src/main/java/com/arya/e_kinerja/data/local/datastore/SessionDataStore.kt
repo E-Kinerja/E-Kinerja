@@ -23,6 +23,7 @@ class SessionDataStore(private val context: Context) {
                 preferences[LEVEL_KEY] ?: "",
                 preferences[NIP_KEY] ?: "",
                 preferences[NAMA_KEY] ?: "",
+                preferences[KODE_JABATAN_KEY] ?: "",
                 preferences[NAMA_JABATAN_KEY] ?: "",
                 preferences[UNIT_KERJA_KEY] ?: "",
                 preferences[STATE_KEY] ?: false
@@ -37,6 +38,7 @@ class SessionDataStore(private val context: Context) {
             preferences[LEVEL_KEY] = sessionEntity.level ?: ""
             preferences[NIP_KEY] = sessionEntity.nip ?: ""
             preferences[NAMA_KEY] = sessionEntity.nama ?: ""
+            preferences[KODE_JABATAN_KEY] = sessionEntity.kodeJabatan ?: ""
             preferences[NAMA_JABATAN_KEY] = sessionEntity.namaJabatan ?: ""
             preferences[UNIT_KERJA_KEY] = sessionEntity.unitKerja ?: ""
             preferences[STATE_KEY] = sessionEntity.state ?: false
@@ -55,6 +57,7 @@ class SessionDataStore(private val context: Context) {
         private val LEVEL_KEY = stringPreferencesKey("level")
         private val NIP_KEY = stringPreferencesKey("nip")
         private val NAMA_KEY = stringPreferencesKey("nama")
+        private val KODE_JABATAN_KEY = stringPreferencesKey("kode_jabatan")
         private val NAMA_JABATAN_KEY = stringPreferencesKey("nama_jabatan")
         private val UNIT_KERJA_KEY = stringPreferencesKey("unit_kerja")
         private val STATE_KEY = booleanPreferencesKey("state")

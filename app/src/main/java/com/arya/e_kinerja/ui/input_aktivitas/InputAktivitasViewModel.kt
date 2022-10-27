@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.Repository
 import com.arya.e_kinerja.data.remote.response.Aktivitas
+import com.arya.e_kinerja.data.remote.response.EditAktivitasResponse
 import com.arya.e_kinerja.data.remote.response.InputAktivitasResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -27,6 +28,26 @@ class InputAktivitasViewModel @Inject constructor(
         jamBerakhir: String
     ): LiveData<Result<InputAktivitasResponse>> {
         return repository.postInputAktivitas(
+            tanggal,
+            idAkt,
+            catatan,
+            output,
+            jamMulai,
+            jamBerakhir
+        )
+    }
+
+    fun postEditTugasAktivitas(
+        id: String,
+        tanggal: String,
+        idAkt: String,
+        catatan: String,
+        output: String,
+        jamMulai: String,
+        jamBerakhir: String
+    ): LiveData<Result<EditAktivitasResponse>> {
+        return repository.postEditAktivitas(
+            id,
             tanggal,
             idAkt,
             catatan,
