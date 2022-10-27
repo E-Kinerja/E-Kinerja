@@ -246,6 +246,7 @@ class LaporanAktivitasFragment : Fragment() {
         Snackbar.make(binding.root, "PDF Tersimpan", Snackbar.LENGTH_SHORT).show()
 
         pdfDocument.close()
+
     }
 
     override fun onDestroyView() {
