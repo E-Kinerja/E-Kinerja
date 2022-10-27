@@ -42,8 +42,7 @@ class TugasAdapter : ListAdapter<TugasAktivitasResponse, TugasAdapter.TugasAktiv
                 "${tugasAktivitasResponse.tglakt} • ${tugasAktivitasResponse.jammulai} - ${tugasAktivitasResponse.jamselesai} ( ${tugasAktivitasResponse.durasi} Menit )"
             binding.tvAktivitas.text = tugasAktivitasResponse.aktivitas?.bkNamaKegiatan
             binding.tvCatatan.text = tugasAktivitasResponse.detailakt
-            binding.tvOutput.text =
-                "${tugasAktivitasResponse.output} ${tugasAktivitasResponse.aktivitas?.bkSatuanOutput}"
+            binding.tvOutput.text = tugasAktivitasResponse.output
             binding.tvStatus.apply {
                 if(tugasAktivitasResponse.status.toString() === "true") {
                     text = "Sudah dinilai"
@@ -97,17 +96,6 @@ class TugasAdapter : ListAdapter<TugasAktivitasResponse, TugasAdapter.TugasAktiv
                     binding.tvSelengkapnya.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.ic_arrow_down, 0, 0, 0
                     )
-                }
-            }
-
-            when(tugasAktivitasResponse.status) {
-                null -> {
-                    binding.btnEdit.visibility = View.GONE
-                    binding.btnHapus.visibility = View.GONE
-                }
-                else -> {
-                    binding.btnEdit.visibility = View.GONE
-                    binding.btnHapus.visibility = View.GONE
                 }
             }
 

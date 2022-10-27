@@ -70,7 +70,7 @@ class InputAktivitasFragment : Fragment() {
                 binding.edtTanggal.text.toString(),
                 idAktivitas.toString(),
                 binding.edtCatatan.text.toString(),
-                binding.edtOutput.text.toString(),
+                "${binding.edtOutput.text.toString()} ${binding.edtSatuan.text.toString()}",
                 binding.edtJamMulai.text.toString(),
                 binding.edtJamBerakhir.text.toString()
             ).observe(viewLifecycleOwner) { result ->
