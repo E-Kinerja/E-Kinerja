@@ -19,9 +19,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/tanggal"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,13 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/tanggal"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,6 +68,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inp_aktivitas"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -76,18 +77,17 @@
             app:hintEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/tv_aktivitas"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <AutoCompleteTextView
-                android:id="@+id/edt_aktivitas"
+                android:id="@+id/act_aktivitas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
-                android:inputType="text"
                 android:hint="@string/aktivitas"
-                android:padding="16dp" />
+                android:inputType="text"
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -122,10 +122,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
-                android:inputType="text"
                 android:hint="@string/catatan"
-                android:padding="16dp" />
+                android:inputType="text"
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,10 +160,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
-                android:inputType="text"
                 android:hint="@string/output"
-                android:padding="16dp" />
+                android:inputType="text"
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -185,10 +185,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
-                android:inputType="text"
                 android:hint="@string/satuan"
-                android:padding="16dp" />
+                android:inputType="text"
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -224,13 +224,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/jam_mulai"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -253,13 +253,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/jam_berakhir"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:textSize="14sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -270,11 +270,12 @@
             android:layout_marginTop="24dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/simpan"
-            android:textAllCaps="false"
+            android:backgroundTint="@color/blue"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:backgroundTint="@color/blue"
+            android:text="@string/simpan"
+            android:textAllCaps="false"
+            android:textSize="14sp"
             app:icon="@drawable/ic_btn_simpan"
             app:iconGravity="textStart"
             app:layout_constraintTop_toBottomOf="@+id/inp_jam_mulai"

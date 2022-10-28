@@ -13,10 +13,11 @@
 
     <string name="jabatan_anda">Jabatan Anda</string>
 
-    <string name="total_aktivitas">%s %%</string>
+    <string name="total_aktivitas_placeholder">%s%%</string>
+    <string name="total_aktivitas_default">0%</string>
     <string name="logo_profil">Logo profil</string>
 
-    <string name="pemberitahuan">Pemberitahuan</string>
+    <string name="pemberitahuan">PEMBERITAHUAN</string>
     <string name="pemberitahuan_1">Pengisian aktivitas harian periode 01 – 07 terakhir pada tanggal 08</string>
     <string name="pemberitahuan_2">Pengisian aktivitas harian Periode 08 – 15 terakhir pada tanggal 16</string>
     <string name="pemberitahuan_3">Pengisian aktivitas harian Periode 16 – 22 terakhir pada tanggal 23</string>
@@ -36,8 +37,8 @@
     <string name="simpan">Simpan</string>
     <string name="update">Update</string>
 
-    <string name="title_penilai">PEJABAT PENILAI KINERJA</string>
-    <string name="title_pegawai">PEGAWAI YANG DINILAI</string>
+    <string name="penilai">PEJABAT PENILAI KINERJA</string>
+    <string name="pegawai">PEGAWAI YANG DINILAI</string>
     <string name="nama">Nama</string>
     <string name="nip">NIP</string>
     <string name="jabatan">Jabatan</string>
@@ -49,6 +50,12 @@
     <string name="selengkapnya">Selengkapnya</string>
     <string name="sudah_dinilai">Sudah dinilai</string>
     <string name="belum_dinilai">Belum dinilai</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="tugas_aktivitas">Tugas Aktivitas</string>
+    <string name="penilaian_aktivitas">Penilaian Aktivitas</string>
+    <string name="laporan_aktivitas">Laporan Aktivitas</string>
+    <string name="logout">Logout</string>
 
     <string-array name="bulan">
         <item>Januari</item>

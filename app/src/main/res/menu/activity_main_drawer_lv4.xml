@@ -7,19 +7,19 @@
         <item
             android:id="@+id/dashboardFragment"
             android:icon="@drawable/ic_menu_dashboard"
-            android:title="Dashboard" />
+            android:title="@string/dashboard" />
         <item
             android:id="@+id/tugasAktivitasFragment"
             android:icon="@drawable/ic_menu_tugas_aktivitas"
-            android:title="Tugas Aktivitas" />
+            android:title="@string/tugas_aktivitas" />
         <item
             android:id="@+id/laporanAktivitasFragment"
             android:icon="@drawable/ic_menu_laporan_aktivitas"
-            android:title="Laporan Aktivitas" />
+            android:title="@string/laporan_aktivitas" />
     </group>
 
     <item
         android:id="@+id/logout"
         android:icon="@drawable/ic_menu_logout"
-        android:title="Logout" />
+        android:title="@string/logout" />
 </menu>

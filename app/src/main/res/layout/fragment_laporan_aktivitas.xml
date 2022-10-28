@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
@@ -12,262 +12,373 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TableLayout
-            android:id="@+id/tl_penilai"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_pejabat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:stretchColumns="*"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp">
 
                 <TextView
-                    android:layout_span="2"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    android:text="@string/title_penilai"
+                    android:id="@+id/tv_pejabat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/penilai"
                     android:textColor="@color/black"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:background="@color/grey"/>
-
-            </TableRow>
-
-            <TableRow>
+                    app:drawableEndCompat="@drawable/ic_arrow_down_16"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:padding="10dp"
-                    android:background="@color/light_green"
+                    android:id="@+id/tv_ket_nama_pejabat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
                     android:text="@string/nama"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/tv_pejabat"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_nama_penilai"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:hint="@string/nama"
-                    android:textColor="@color/black" />
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
+                    android:id="@+id/tv_nama_pejabat"
                     android:layout_width="0dp"
-                    android:padding="10dp"
-                    android:background="@color/light_green"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/tv_pejabat"
+                    app:layout_constraintStart_toStartOf="@id/tv_jabatan_pejabat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Nama" />
+
+                <View
+                    android:id="@+id/divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="#E0E0E0"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_nama_pejabat"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_ket_nip_pejabat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
                     android:text="@string/nip"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_1"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_nip_penilai"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:hint="@string/nip"
-                    android:textColor="@color/black" />
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
+                    android:id="@+id/tv_nip_pejabat"
                     android:layout_width="0dp"
-                    android:padding="10dp"
-                    android:background="@color/light_green"
-                    android:text="@string/jabatan"
-                    android:textColor="@color/black" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_1"
+                    app:layout_constraintStart_toStartOf="@id/tv_jabatan_pejabat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="NIP" />
+
+                <View
+                    android:id="@+id/divider_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="#E0E0E0"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_nip_pejabat"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_jabatan_penilai"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:hint="@string/jabatan"
-                    android:textColor="@color/black" />
+                    android:id="@+id/tv_ket_jabatan_pejabat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/jabatan"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_2"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            </TableRow>
+                <TextView
+                    android:id="@+id/tv_jabatan_pejabat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_2"
+                    app:layout_constraintStart_toStartOf="@id/tv_jabatan_pejabat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Jabatan" />
 
-        </TableLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TableLayout
-            android:id="@+id/tl_pegawai"
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_pegawai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:stretchColumns="*"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tl_penilai">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp">
 
                 <TextView
-                    android:layout_span="2"
-                    android:background="@color/grey"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/title_pegawai"
+                    android:id="@+id/tv_pegawai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/pegawai"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
-
-            </TableRow>
-
-            <TableRow>
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:drawableEndCompat="@drawable/ic_arrow_down_16" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:background="@color/light_green"
-                    android:padding="10dp"
+                    android:id="@+id/tv_ket_nama_pegawai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
                     android:text="@string/nama"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/tv_pegawai"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_nama_pegawai"
-                    android:hint="@string/nama"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:textColor="@color/black" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/tv_pegawai"
+                    app:layout_constraintStart_toStartOf="@id/tv_instansi_pegawai"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Nama" />
 
-            </TableRow>
-
-            <TableRow>
+                <View
+                    android:id="@+id/divider_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="#E0E0E0"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_nama_pegawai"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:background="@color/light_green"
-                    android:padding="10dp"
+                    android:id="@+id/tv_ket_nip_pegawai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
                     android:text="@string/nip"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_3"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_nip_pegawai"
-                    android:hint="@string/nip"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:textColor="@color/black" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_3"
+                    app:layout_constraintStart_toStartOf="@id/tv_instansi_pegawai"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="NIP" />
 
-            </TableRow>
-
-            <TableRow>
+                <View
+                    android:id="@+id/divider_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="#E0E0E0"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_nip_pegawai"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:background="@color/light_green"
-                    android:padding="10dp"
+                    android:id="@+id/tv_ket_jabatan_pegawai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
                     android:text="@string/jabatan"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_4"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_jabatan_pegawai"
-                    android:hint="@string/jabatan"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:textColor="@color/black" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_4"
+                    app:layout_constraintStart_toStartOf="@id/tv_instansi_pegawai"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Jabatan" />
 
-            </TableRow>
-
-            <TableRow>
+                <View
+                    android:id="@+id/divider_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="#E0E0E0"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_jabatan_pegawai"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:background="@color/light_green"
-                    android:padding="10dp"
+                    android:id="@+id/tv_ket_instansi_pegawai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
                     android:text="@string/instansi"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_5"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_instansi_pegawai"
-                    android:hint="@string/instansi"
-                    android:padding="10dp"
-                    android:background="@color/white"
-                    android:textColor="@color/black" />
-
-            </TableRow>
-
-        </TableLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inp_tahun"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/white"
-                app:hintEnabled="false"
-                app:layout_constraintEnd_toStartOf="@id/inp_bulan"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <AutoCompleteTextView
-                    android:id="@+id/edt_tahun"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="16dp"
                     android:textSize="14sp"
-                    android:inputType="none"
-                    android:hint="@null"
-                    android:padding="16dp" />
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/divider_5"
+                    app:layout_constraintStart_toStartOf="@id/tv_instansi_pegawai"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Instansi" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inp_bulan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/white"
-                app:hintEnabled="false"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/inp_tahun"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        </com.google.android.material.card.MaterialCardView>
 
-                <AutoCompleteTextView
-                    android:id="@+id/edt_bulan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:inputType="none"
-                    android:hint="@null"
-                    android:padding="16dp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_print_aktivitas"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inp_tahun"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:text="@string/print_aktivitas"
-            android:textAllCaps="false"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:backgroundTint="@color/blue"
-            app:icon="@drawable/ic_btn_print"
-            app:iconGravity="textStart"
-            app:layout_constraintTop_toBottomOf="@id/inp_bulan"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:background="@color/white"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/edt_tahun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@null"
+                android:inputType="none"
+                android:padding="16dp"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inp_bulan"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@color/white"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/edt_bulan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@null"
+                android:inputType="none"
+                android:padding="16dp"
+                android:textSize="14sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_aktivitas"
@@ -292,10 +403,11 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
                     android:layout_marginHorizontal="16dp"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:text="@string/total_aktivitas_default"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:text="0 %" />
@@ -308,10 +420,9 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginHorizontal="16dp"
                     android:text="@string/aktivitas"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_persentase"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
