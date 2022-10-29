@@ -1,6 +1,7 @@
 package com.arya.e_kinerja.ui.laporan_aktivitas
 
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.adapter.LaporanAktivitasAdapter
 import com.arya.e_kinerja.data.Result
+import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.databinding.FragmentLaporanAktivitasBinding
 import com.arya.e_kinerja.utils.dateFormat
+import com.google.android.material.snackbar.Snackbar
+import com.itextpdf.text.*
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfWriter
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 @AndroidEntryPoint
 class LaporanAktivitasFragment : Fragment() {
@@ -26,7 +38,10 @@ class LaporanAktivitasFragment : Fragment() {
     private var currentBulan = dateFormat(null, "MM").toInt()
     private var currentTahun = dateFormat(null, "yyyy").toInt()
 
+    private lateinit var cell: PdfPCell
+
     private lateinit var laporanAktivitasAdapter: LaporanAktivitasAdapter
+    private lateinit var sessionEntity: SessionEntity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +55,7 @@ class LaporanAktivitasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpView()
+        observeGetTotalAktivitas()
         setUpRecyclerView()
         setUpAction()
     }
@@ -79,6 +95,7 @@ class LaporanAktivitasFragment : Fragment() {
             binding.tvNipPegawai.text = session.nip
             binding.tvJabatanPegawai.text = session.namaJabatan
             binding.tvInstansiPegawai.text = session.unitKerja
+            sessionEntity = session
         }
     }
 
@@ -97,103 +114,140 @@ class LaporanAktivitasFragment : Fragment() {
     }
 
     private fun createPDF() {
-//        Log.i("CreatePDF", "PDF Terbuat")
-//        val bulan = resources.getStringArray(R.array.bulan)[currentBulan - 1].toString()
-//
-//        val calendar = Calendar.getInstance()
-//        val clockFormat = SimpleDateFormat("HH-mm-ss", Locale.getDefault())
-//        val clock = clockFormat.format(calendar.time)
-//
-//        val pdfDocument = PdfDocument()
-//        val pageInfo = PageInfo.Builder(816, 1054 , 1).create()
-//        val page = pdfDocument.startPage(pageInfo)
-//
-//        val paint = Paint()
-//        val canvas = page.canvas
-//
-//        paint.style = Paint.Style.STROKE
-//        paint.strokeWidth = 1F
-//        canvas.drawRect(50F, 50F, pageInfo.pageWidth.toFloat() - 50, 80F, paint)
-//        canvas.drawRect(50F, 80F, pageInfo.pageWidth.toFloat() - 50, 110F, paint)
-//        canvas.drawRect(50F, 110F, pageInfo.pageWidth.toFloat() - 50, 140F, paint)
-//        canvas.drawRect(50F, 140F, pageInfo.pageWidth.toFloat() / 2, 170F, paint)
-//        canvas.drawRect(50F, 170F, pageInfo.pageWidth.toFloat() / 2, 200F, paint)
-//        canvas.drawRect(pageInfo.pageWidth.toFloat() / 2, 140F, pageInfo.pageWidth.toFloat() - 50, 200F, paint)
-//
-//        canvas.drawLine(150F, 80F, 150F, 200F, paint)
-//        canvas.drawLine(pageInfo.pageWidth.toFloat() / 2, 50F, pageInfo.pageWidth.toFloat() / 2, 200F, paint)
-//        canvas.drawLine((pageInfo.pageWidth.toFloat() / 2) + 110, 80F, (pageInfo.pageWidth.toFloat() / 2) + 110, 200F, paint)
-//
-//        paint.setColor(Color.BLACK)
-//        paint.textSize = 14F
-//        paint.textAlign = Paint.Align.CENTER
-//        paint.style = Paint.Style.FILL
-//        canvas.drawText("PEGAWAI YANG DINILAI", 234F, 70F, paint)
-//        canvas.drawText("PEJABAT PENILAI KINERJA", 582F, 70F, paint)
-//
-//        //Pegawai yang dinilai
-//        paint.textAlign = Paint.Align.LEFT
-//        canvas.drawText("Nama", 60F, 100F, paint)
-//        canvas.drawText("NIP", 60F, 130F, paint)
-//        canvas.drawText("Jabatan", 60F, 160F, paint)
-//        canvas.drawText("Instansi", 60F, 190F, paint)
-//
-//        viewModel.sessionEntity.observe(viewLifecycleOwner) {
-//            canvas.drawText(it.nama.toString(), 160F, 100F, paint)
-//            canvas.drawText(it.nip.toString(), 160F, 130F, paint)
-//            canvas.drawText(it.namaJabatan.toString(), 160F, 160F, paint)
-//            canvas.drawText(it.unitKerja.toString(), 160F, 190F, paint)
-//        }
-//
-//        canvas.drawText("Nama", 418F, 100F, paint)
-//        canvas.drawText("NIP", 418F, 130F, paint)
-//        canvas.drawText("Jabatan", 418F, 175F, paint)
-//
-//        paint.style = Paint.Style.STROKE
-//        paint.strokeWidth = 1F
-//        canvas.drawRect(50F, 225F, pageInfo.pageWidth.toFloat() - 50, 275F, paint)
-//
-//        canvas.drawLine(80F, 225F, 80F, 275F, paint)
-//        canvas.drawLine(200F, 225F, 200F, 275F, paint)
-//        canvas.drawLine(pageInfo.pageWidth.toFloat() - 210, 225F, pageInfo.pageWidth.toFloat() - 210, 275F, paint)
-//        canvas.drawLine(pageInfo.pageWidth.toFloat() - 110, 225F, pageInfo.pageWidth.toFloat() - 110, 275F, paint)
-//
-//        paint.setColor(Color.BLACK)
-//        paint.textSize = 14F
-//        paint.textAlign = Paint.Align.CENTER
-//        paint.isFakeBoldText = true
-//        paint.style = Paint.Style.FILL
-//        canvas.drawText("No", 65F, 255F, paint)
-//        canvas.drawText("Tanggal", 140F, 255F, paint)
-//        canvas.drawText("Aktivitas", 403F, 255F, paint)
-//        canvas.drawText("Output", 656F, 255F, paint)
-//        canvas.drawText("Durasi", 736F, 247.5F, paint)
-//        canvas.drawText("(Menit)", 736F, 262.5F, paint)
+        val bulan = resources.getStringArray(R.array.bulan)[currentBulan - 1].toString()
 
-//        val pdfTable = PdfPTable(4)
-//        pdfTable.setWidthPercentage(100F)
-//        pdfTable.setWidths(floatArrayOf(1F , 2F, 1F, 2F))
-//        pdfTable.headerRows  = 1
-//        pdfTable.defaultCell.verticalAlignment = Element.ALIGN_CENTER
-//        pdfTable.defaultCell.horizontalAlignment = Element.ALIGN_CENTER
-//
-//        val cell = PdfPCell(Phrase("PEGAWAI YANG DINILAI"))
-//        cell.horizontalAlignment = Element.ALIGN_CENTER
-//        cell.verticalAlignment = Element.ALIGN_MIDDLE
-//        cell.setPadding(4F)
-//        pdfTable.addCell(cell)
+        val calendar = Calendar.getInstance()
+        val formatWaktu = SimpleDateFormat("HH-mm-ss", Locale.getDefault())
+        val waktu = formatWaktu.format(calendar.time)
 
-//        pdfDocument.finishPage(page)
-//
-//        val filePath = File(
-//            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(),
-//            "Laporan_Aktivitas_${bulan}_${currentTahun} ($clock).pdf"
-//        )
-//        pdfDocument.writeTo(FileOutputStream(filePath))
-//        Log.i("CreatePDF", "PDF Tersimpan")
-//        Snackbar.make(binding.root, "PDF Tersimpan", Snackbar.LENGTH_SHORT).show()
-//
-//        pdfDocument.close()
+        val formatTanggal = SimpleDateFormat("d", Locale.getDefault())
+        val tanggal = formatTanggal.format(calendar.time)
+
+        // Create PDF using iText Library
+        val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+        val file = File(filePath, "Laporan_Aktivitas_${bulan}_${currentTahun}.pdf")
+        val outputStream = FileOutputStream(file)
+
+        val paperSize = Rectangle(612F, 792F)
+        val document = Document(paperSize)
+        PdfWriter.getInstance(document, outputStream)
+        document.open()
+        document.addCreationDate()
+        document.add(Chunk(""))
+
+        val normalFont = Font(Font.FontFamily.UNDEFINED, 9F, Font.NORMAL, BaseColor.BLACK)
+        val boldFont = Font(Font.FontFamily.UNDEFINED, 9F, Font.BOLD, BaseColor.BLACK)
+        val normalTnrFont = Font(Font.FontFamily.TIMES_ROMAN, 12F, Font.NORMAL, BaseColor.BLACK)
+        val boldTnrFont = Font(Font.FontFamily.TIMES_ROMAN, 12F, Font.BOLD, BaseColor.BLACK)
+
+        val table1 = PdfPTable(4)
+        table1.widthPercentage = 100F
+        table1.setWidths(floatArrayOf(1F, 3F, 1F, 3F))
+
+        val alignCenter = Element.ALIGN_CENTER
+        val alignLeft = Element.ALIGN_LEFT
+
+        table1.addCell(createCell("PEGAWAI YANG DINILAI", normalFont, alignCenter, null, 5F, 2, null))
+        table1.addCell(createCell("PEJABAT YANG MENILAI", normalFont, alignCenter, null, 5F, 2, null))
+
+        table1.addCell(createCell("Nama", normalFont, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell(sessionEntity.nama.toString(), normalFont, alignLeft, null, 5F, null, null))
+
+        table1.addCell(createCell("Nama", normalFont, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell("", normalFont, alignLeft, null, 5F, null, null))
+
+        table1.addCell(createCell("NIP", normalFont, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell(sessionEntity.nip.toString(), normalFont, alignLeft, null, 5F, null, null))
+
+        table1.addCell(createCell("NIP", normalFont, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell("", normalFont, alignLeft, null, 5F, null, null))
+
+        table1.addCell(createCell("Jabatan", normalFont, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell(sessionEntity.namaJabatan.toString(), normalFont, alignLeft, null, 5F, null, null))
+
+        table1.addCell(createCell("Jabatan", normalFont, alignLeft, null, 5F, null, 2))
+        table1.addCell(createCell("", normalFont, alignLeft, null, 5F, null, 2))
+
+        table1.addCell(createCell("Institusi", normalFont, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell(sessionEntity.unitKerja.toString(), normalFont, alignLeft, null,5F, null, null))
+
+        document.add(table1)
+
+        val table2 = PdfPTable(5)
+        table2.widthPercentage = 100F
+        table2.setWidths(floatArrayOf(1F, 2F, 6F, 2F, 1F))
+        table2.spacingBefore = 15F
+
+        table2.addCell(createCell("No", boldFont, alignCenter, null,5F, null, null))
+        table2.addCell(createCell("Tanggal", boldFont, alignCenter, null, 5F, null, null))
+        table2.addCell(createCell("Aktivitas", boldFont, alignCenter, null, 5F, null, null))
+        table2.addCell(createCell("Output", boldFont, alignCenter, null, 5F, null, null))
+        table2.addCell(createCell("Durasi (Menit)", boldFont, alignCenter, null, 5F, null, null))
+
+        for (i in 1..laporanAktivitasAdapter.itemCount){
+            table2.addCell(createCell("$i", normalFont, alignCenter, null, 5F, null, null))
+            table2.addCell(createCell(laporanAktivitasAdapter.currentList[i - 1].tglakt.toString(), normalFont, alignLeft, null, 5F, null, null))
+            table2.addCell(createCell(laporanAktivitasAdapter.currentList[i - 1].aktivitas?.bkNamaKegiatan.toString(), normalFont, alignLeft, null, 5F, null, null))
+            table2.addCell(createCell(laporanAktivitasAdapter.currentList[i - 1].output.toString(), normalFont, alignLeft, null, 5F, null, null))
+            table2.addCell(createCell(laporanAktivitasAdapter.currentList[i - 1].durasi.toString(), normalFont, alignCenter, null, 5F, null, null))
+        }
+
+        table2.addCell(createCell("Nilai Capaian Aktivitas %", normalFont, alignCenter, null, 5F, 4, null))
+        table2.addCell(createCell(binding.tvPersentase.text.toString(), normalFont, alignCenter, null, 5F, null, null))
+
+        document.add(table2)
+
+        val table3 = PdfPTable(2)
+        table3.widthPercentage = 100F
+        table3.setWidths(floatArrayOf(1F, 1F))
+        table3.spacingBefore = 50F
+
+        val borderColor = BaseColor(255, 255, 255)
+
+        table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, 5F, null, null))
+        table3.addCell(createCell("Sidoarjo, $tanggal ${resources.getStringArray(R.array.bulan)[currentBulan - 1]} $currentTahun", normalTnrFont, alignCenter, borderColor, 5F, null, null))
+
+        table3.addCell(createCell("Pihak Kedua,", normalTnrFont, alignCenter, borderColor, null, null, null))
+        table3.addCell(createCell("Pihak Pertama,", normalTnrFont, alignCenter, borderColor, null, null, null))
+
+        table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, null, null, null))
+        table3.addCell(createCell(sessionEntity.namaJabatan.toString(), normalTnrFont, alignCenter, borderColor, null, null, null))
+
+        table3.addCell(createCell("Ditandatangani secara elektronik oleh:\n\n\n\n", normalTnrFont, alignLeft, borderColor, null, null, 3))
+        table3.addCell(createCell("Ditandatangani secara elektronik oleh:\n\n${sessionEntity.nip}\n${sessionEntity.nama}", normalTnrFont, alignLeft, borderColor, null, null, 3))
+
+        table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, null, null, null))
+        table3.addCell(createCell(sessionEntity.nama.toString(), boldTnrFont, alignCenter, borderColor, null, null, null))
+
+        table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, null, null, null))
+        table3.addCell(createCell(sessionEntity.nip.toString(), normalTnrFont, alignCenter, borderColor, null, null, null))
+
+        document.add(table3)
+
+        document.close()
+        Snackbar.make(binding.root, "PDF Berhasil Tersimpan", Snackbar.LENGTH_SHORT).show()
+    }
+
+
+    private fun createCell(text: String, font: Font, hAlign: Int, border: BaseColor?, padding: Float?, colspan: Int?, rowspan: Int?): PdfPCell {
+        val cell = PdfPCell(Phrase(text, font))
+        cell.horizontalAlignment = hAlign
+        cell.verticalAlignment = Element.ALIGN_MIDDLE
+        cell.borderColor = border
+
+        if (padding != null){
+            cell.setPadding(padding)
+        }
+
+        if (colspan != null){
+            cell.colspan = colspan
+        }
+
+        if (rowspan != null){
+            cell.rowspan = rowspan
+        }
+
+        return cell
     }
 
     override fun onResume() {
@@ -212,6 +266,21 @@ class LaporanAktivitasFragment : Fragment() {
             (arrayBulan.indexOf(binding.edtBulan.text.toString()) + 1).toString(),
             binding.edtTahun.text.toString()
         )
+    }
+
+    private fun observeGetTotalAktivitas() {
+        viewModel.getTotalAktivitas().observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        binding.tvPersentase.text =
+                            resources.getString(R.string.total_aktivitas, result.data.data)
+                    }
+                    is Result.Error -> {}
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
