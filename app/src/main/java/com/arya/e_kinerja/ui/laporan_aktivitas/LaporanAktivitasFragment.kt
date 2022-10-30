@@ -132,20 +132,18 @@ class LaporanAktivitasFragment : Fragment() {
         val document = Document(paperSize)
         PdfWriter.getInstance(document, outputStream)
         document.open()
-        document.addCreationDate()
-        document.add(Chunk(""))
 
         val normalFont = Font(Font.FontFamily.UNDEFINED, 9F, Font.NORMAL, BaseColor.BLACK)
         val boldFont = Font(Font.FontFamily.UNDEFINED, 9F, Font.BOLD, BaseColor.BLACK)
         val normalTnrFont = Font(Font.FontFamily.TIMES_ROMAN, 12F, Font.NORMAL, BaseColor.BLACK)
         val boldTnrFont = Font(Font.FontFamily.TIMES_ROMAN, 12F, Font.BOLD, BaseColor.BLACK)
 
+        val alignCenter = Element.ALIGN_CENTER
+        val alignLeft = Element.ALIGN_LEFT
+
         val table1 = PdfPTable(4)
         table1.widthPercentage = 100F
         table1.setWidths(floatArrayOf(1F, 3F, 1F, 3F))
-
-        val alignCenter = Element.ALIGN_CENTER
-        val alignLeft = Element.ALIGN_LEFT
 
         table1.addCell(createCell("PEGAWAI YANG DINILAI", normalFont, alignCenter, null, 5F, 2, null))
         table1.addCell(createCell("PEJABAT YANG MENILAI", normalFont, alignCenter, null, 5F, 2, null))
@@ -213,11 +211,24 @@ class LaporanAktivitasFragment : Fragment() {
         table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, null, null, null))
         table3.addCell(createCell(sessionEntity.namaJabatan.toString(), normalTnrFont, alignCenter, borderColor, null, null, null))
 
-        table3.addCell(createCell("Ditandatangani secara elektronik oleh:\n\n\n\n", normalTnrFont, alignLeft, borderColor, null, null, 3))
-        table3.addCell(createCell("Ditandatangani secara elektronik oleh:\n\n${sessionEntity.nip}\n${sessionEntity.nama}", normalTnrFont, alignLeft, borderColor, null, null, 3))
+        table3.addCell(createCell("\nDitandatangani secara elektronik oleh:\n\n\n\n\n", normalTnrFont, alignLeft, borderColor, null, null, 3))
+        table3.addCell(createCell("\nDitandatangani secara elektronik oleh:\n\n${sessionEntity.nip}\n${sessionEntity.nama}\n", normalTnrFont, alignLeft, borderColor, null, null, 3))
 
-        table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, null, null, null))
-        table3.addCell(createCell(sessionEntity.nama.toString(), boldTnrFont, alignCenter, borderColor, null, null, null))
+        val nama1 = Chunk("", boldTnrFont)
+        nama1.setUnderline(1F, -1F)
+        cell = PdfPCell(Phrase(nama1))
+        cell.horizontalAlignment = alignCenter
+        cell.verticalAlignment = Element.ALIGN_MIDDLE
+        cell.borderColor = borderColor
+        table3.addCell(cell)
+
+        val nama2 = Chunk(sessionEntity.nama.toString(), boldTnrFont)
+        nama2.setUnderline(1F, -1F)
+        cell = PdfPCell(Phrase(nama2))
+        cell.horizontalAlignment = alignCenter
+        cell.verticalAlignment = Element.ALIGN_MIDDLE
+        cell.borderColor = borderColor
+        table3.addCell(cell)
 
         table3.addCell(createCell("", normalTnrFont, alignCenter, borderColor, null, null, null))
         table3.addCell(createCell(sessionEntity.nip.toString(), normalTnrFont, alignCenter, borderColor, null, null, null))
