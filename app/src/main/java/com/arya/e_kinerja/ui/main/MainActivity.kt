@@ -1,8 +1,10 @@
 package com.arya.e_kinerja.ui.main
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -15,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.databinding.ActivityMainBinding
 import com.arya.e_kinerja.databinding.NavHeaderMainBinding
+import com.arya.e_kinerja.notification.NotificationWorker
 import com.arya.e_kinerja.utils.gone
 import com.arya.e_kinerja.utils.visible
 import com.google.android.material.navigation.NavigationView
@@ -33,7 +36,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var navHeaderView: View
     private lateinit var navHeaderMainBinding: NavHeaderMainBinding
+    private lateinit var notificationWorker: NotificationWorker
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,6 +69,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        notificationWorker = NotificationWorker()
+        notificationWorker.setOneTimeAlarm(
+            this,
+            NotificationWorker.TYPE_ONE_TIME,
+            NotificationWorker.MESSAGE_ONE_TIME
+            )
     }
 
     private fun setupNavDrawer(level: String) {
