@@ -1,21 +1,22 @@
 package com.arya.e_kinerja.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arya.e_kinerja.R
-import com.arya.e_kinerja.data.remote.response.TugasAktivitasResponse
+import com.arya.e_kinerja.data.remote.response.GetTugasAktivitasResponse
 import com.arya.e_kinerja.databinding.ItemTugasAktivitasBinding
 import com.arya.e_kinerja.utils.dateTimeFormat
+import com.arya.e_kinerja.utils.gone
+import com.arya.e_kinerja.utils.visible
 
-class TugasAktivitasAdapter : ListAdapter<TugasAktivitasResponse, TugasAktivitasAdapter.TugasAktivitasViewHolder>(DIFF_CALLBACK) {
+class TugasAktivitasAdapter : ListAdapter<GetTugasAktivitasResponse, TugasAktivitasAdapter.TugasAktivitasViewHolder>(DIFF_CALLBACK) {
 
-    var onBtnEditClick: ((TugasAktivitasResponse) -> Unit)? = null
-    var onBtnHapusClick: ((TugasAktivitasResponse) -> Unit)? = null
+    var onBtnEditClick: ((GetTugasAktivitasResponse) -> Unit)? = null
+    var onBtnHapusClick: ((GetTugasAktivitasResponse) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TugasAktivitasViewHolder {
         return TugasAktivitasViewHolder(
@@ -33,22 +34,22 @@ class TugasAktivitasAdapter : ListAdapter<TugasAktivitasResponse, TugasAktivitas
     }
 
     inner class TugasAktivitasViewHolder(private val binding: ItemTugasAktivitasBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(tugasAktivitasResponse: TugasAktivitasResponse) {
+        fun bind(getTugasAktivitasResponse: GetTugasAktivitasResponse) {
             var isExpanded = false
 
             binding.tvTanggalWaktu.text = dateTimeFormat(
-                tugasAktivitasResponse.tglakt.toString(),
-                tugasAktivitasResponse.jammulai.toString(),
-                tugasAktivitasResponse.jamselesai.toString(),
-                tugasAktivitasResponse.durasi.toString()
+                getTugasAktivitasResponse.tglakt.toString(),
+                getTugasAktivitasResponse.jammulai.toString(),
+                getTugasAktivitasResponse.jamselesai.toString(),
+                getTugasAktivitasResponse.durasi.toString()
             )
-            binding.tvAktivitas.text = tugasAktivitasResponse.aktivitas?.bkNamaKegiatan
-            binding.tvCatatan.text = tugasAktivitasResponse.detailakt
-            binding.tvOutput.text = tugasAktivitasResponse.output
+            binding.tvAktivitas.text = getTugasAktivitasResponse.aktivitas?.bkNamaKegiatan
+            binding.tvCatatan.text = getTugasAktivitasResponse.detailakt
+            binding.tvOutput.text = getTugasAktivitasResponse.output
             binding.tvStatus.apply {
-                if(tugasAktivitasResponse.status == true) {
+                if(getTugasAktivitasResponse.status == true) {
                     text = resources.getString(R.string.sudah_dinilai)
-                    setTextColor(ContextCompat.getColor(context, R.color.cyan))
+                    setTextColor(ContextCompat.getColor(context, R.color.teal))
                 } else {
                     text = resources.getString(R.string.belum_dinilai)
                     setTextColor(ContextCompat.getColor(context, R.color.red))
@@ -59,55 +60,55 @@ class TugasAktivitasAdapter : ListAdapter<TugasAktivitasResponse, TugasAktivitas
                 isExpanded = !isExpanded
                 if (isExpanded)  {
                     binding.tvAktivitas.maxLines = Int.MAX_VALUE
-                    binding.tvKetCatatan.visibility = View.VISIBLE
-                    binding.tvCatatan.visibility = View.VISIBLE
-                    binding.tvKetOutput.visibility = View.VISIBLE
-                    binding.tvOutput.visibility = View.VISIBLE
+                    binding.tvKetCatatan.visible()
+                    binding.tvCatatan.visible()
+                    binding.tvKetOutput.visible()
+                    binding.tvOutput.visible()
 
-                    if (tugasAktivitasResponse.status.toString() === "true") {
-                        binding.btnEdit.visibility = View.GONE
-                        binding.btnHapus.visibility = View.GONE
+                    if (getTugasAktivitasResponse.status == true) {
+                        binding.btnEdit.gone()
+                        binding.btnHapus.gone()
                     } else {
-                        binding.btnEdit.visibility = View.VISIBLE
-                        binding.btnHapus.visibility = View.VISIBLE
+                        binding.btnEdit.visible()
+                        binding.btnHapus.visible()
                     }
 
                     binding.tvSelengkapnya.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_arrow_up, 0, 0, 0
+                        R.drawable.ic_arrow_up_14, 0, 0, 0
                     )
                 } else {
                     binding.tvAktivitas.maxLines = 1
-                    binding.tvKetCatatan.visibility = View.GONE
-                    binding.tvCatatan.visibility = View.GONE
-                    binding.tvKetOutput.visibility = View.GONE
-                    binding.tvOutput.visibility = View.GONE
-                    binding.btnEdit.visibility = View.GONE
-                    binding.btnHapus.visibility = View.GONE
+                    binding.tvKetCatatan.gone()
+                    binding.tvCatatan.gone()
+                    binding.tvKetOutput.gone()
+                    binding.tvOutput.gone()
+                    binding.btnEdit.gone()
+                    binding.btnHapus.gone()
 
                     binding.tvSelengkapnya.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_arrow_down, 0, 0, 0
+                        R.drawable.ic_arrow_down_14, 0, 0, 0
                     )
                 }
             }
 
             binding.btnEdit.setOnClickListener {
-                onBtnEditClick?.invoke(tugasAktivitasResponse)
+                onBtnEditClick?.invoke(getTugasAktivitasResponse)
             }
 
             binding.btnHapus.setOnClickListener {
                 isExpanded = !isExpanded
-                onBtnHapusClick?.invoke(tugasAktivitasResponse)
+                onBtnHapusClick?.invoke(getTugasAktivitasResponse)
             }
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TugasAktivitasResponse>() {
-            override fun areItemsTheSame(oldItem: TugasAktivitasResponse, newItem: TugasAktivitasResponse): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GetTugasAktivitasResponse>() {
+            override fun areItemsTheSame(oldItem: GetTugasAktivitasResponse, newItem: GetTugasAktivitasResponse): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: TugasAktivitasResponse, newItem: TugasAktivitasResponse): Boolean {
+            override fun areContentsTheSame(oldItem: GetTugasAktivitasResponse, newItem: GetTugasAktivitasResponse): Boolean {
                 return oldItem.id == newItem.id
             }
         }

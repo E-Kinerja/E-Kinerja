@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.adapter.BawahanArrayAdapter
-import com.arya.e_kinerja.adapter.TugasAktivitasAdapter
+import com.arya.e_kinerja.adapter.PenilaianAktivitasAdapter
 import com.arya.e_kinerja.data.Result
+import com.arya.e_kinerja.data.remote.response.GetTugasAktivitasResponse
 import com.arya.e_kinerja.databinding.FragmentPenilaianAktivitasBinding
 import com.arya.e_kinerja.utils.dateFormat
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,9 +30,10 @@ class PenilaianAktivitasFragment : Fragment() {
     private var currentTahun = dateFormat(null, "yyyy").toInt()
 
     private lateinit var bawahanArrayAdapter: BawahanArrayAdapter
-    private lateinit var tugasAktivitasAdapter: TugasAktivitasAdapter
+    private lateinit var penilaianAktivitasAdapter: PenilaianAktivitasAdapter
 
-    private var idPns = 0
+    private var idPns: Int? = null
+    private var nip: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,55 +52,60 @@ class PenilaianAktivitasFragment : Fragment() {
     }
 
     private fun setUpView() {
+        observeGetListBawahan()
+
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
     }
 
     private fun setUpRecyclerView() {
-        tugasAktivitasAdapter = TugasAktivitasAdapter()
+        penilaianAktivitasAdapter = PenilaianAktivitasAdapter()
+
+        penilaianAktivitasAdapter.onCheckBoxClick = { getTugasAktivitasResponse: GetTugasAktivitasResponse, isChecked: Boolean ->
+            observePostVerifAktivitas(
+                (getTugasAktivitasResponse.id as Int), isChecked, (idPns as Int), currentBulan, currentTahun
+            )
+        }
+
+        penilaianAktivitasAdapter.onBtnEditClick = {
+            findNavController().navigate(
+                PenilaianAktivitasFragmentDirections
+                    .actionPenilaianAktivitasFragmentToInputAktivitasFragment(it, (nip as String))
+            )
+        }
+
+        penilaianAktivitasAdapter.onBtnHapusClick = {
+            observeDeleteTugasAktivitas(it.id as Int)
+        }
+
         binding.rvPenilaianAktivitas.layoutManager = LinearLayoutManager(context)
-        binding.rvPenilaianAktivitas.adapter = tugasAktivitasAdapter
+        binding.rvPenilaianAktivitas.adapter = penilaianAktivitasAdapter
     }
 
     private fun setUpAction() {
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
             currentBulan = position + 1
-            observeGetTugasAktivitas(idPns.toString(), currentBulan.toString(), currentTahun.toString())
+            observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->
             currentTahun = adapterView.adapter.getItem(position) as Int
-            observeGetTugasAktivitas(idPns.toString(), currentBulan.toString(), currentTahun.toString())
+            observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
         }
 
         binding.edtBawahan.setOnItemClickListener { _, _, position, _ ->
             val bawahan = bawahanArrayAdapter.getItem(position)
 
-            idPns = bawahan?.idPns ?: 0
+            idPns = bawahan?.idPns
+            nip = bawahan?.nip
 
             binding.edtBawahan.setText(bawahan?.nama)
 
-            observeGetTugasAktivitas(idPns.toString(), currentBulan.toString(), currentTahun.toString())
+            observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
         }
     }
 
-    private fun observeGetTugasAktivitas(idPns: String, bulan: String, tahun: String) {
-        viewModel.getTugasAktivitas(idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {}
-                    is Result.Success -> {
-                        tugasAktivitasAdapter.submitList(result.data)
-                    }
-                    is Result.Error -> {}
-                }
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
+    private fun observeGetListBawahan() {
         viewModel.getListBawahan().observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
@@ -108,27 +116,70 @@ class PenilaianAktivitasFragment : Fragment() {
                             R.layout.item_dropdown,
                             result.data.data
                         )
+                        bawahanArrayAdapter.notifyDataSetChanged()
                         binding.edtBawahan.setAdapter(bawahanArrayAdapter)
                     }
                     is Result.Error -> {}
                 }
             }
         }
+    }
+
+    private fun observeDeleteTugasAktivitas(id: Int) {
+        viewModel.deleteTugasAktivitas(id).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+                    }
+                    is Result.Error -> {}
+                }
+            }
+        }
+    }
+
+    private fun observeGetTugasAktivitas(idPns: Int?, bulan: Int, tahun: Int) {
+        viewModel.getTugasAktivitas(idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        penilaianAktivitasAdapter.submitList(result.data)
+                    }
+                    is Result.Error -> {}
+                }
+            }
+        }
+    }
+
+    private fun observePostVerifAktivitas(id: Int, status: Boolean, idPns: Int, bulan: Int, tahun: Int) {
+        viewModel.postVerifTugasAktivitas(id, status, idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+                    }
+                    is Result.Error -> {}
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         val arrayBulan = resources.getStringArray(R.array.bulan)
         val arrayTahun = resources.getStringArray(R.array.tahun)
 
-        val adapterBulan = ArrayAdapter(requireContext(), R.layout.item_dropdown, arrayBulan)
-        val adapterTahun = ArrayAdapter(requireContext(), R.layout.item_dropdown, arrayTahun)
+        binding.edtBulan.setAdapter(
+            ArrayAdapter(requireContext(), R.layout.item_dropdown, R.id.tv_dropdown_item, arrayBulan)
+        )
 
-        binding.edtBulan.setAdapter(adapterBulan)
-        binding.edtTahun.setAdapter(adapterTahun)
-
-//        observeGetTugasAktivitas(
-//            idPns.toString(),
-//            (arrayBulan.indexOf(binding.edtBulan.text.toString()) + 1).toString(),
-//            binding.edtTahun.text.toString()
-//        )
+        binding.edtTahun.setAdapter(
+            ArrayAdapter(requireContext(), R.layout.item_dropdown, R.id.tv_dropdown_item, arrayTahun)
+        )
     }
 
     override fun onDestroyView() {

@@ -7,7 +7,7 @@ import com.arya.e_kinerja.data.local.datastore.SessionDataStore
 import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.data.remote.response.*
 import com.arya.e_kinerja.data.remote.retrofit.ApiService
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -23,14 +23,20 @@ class Repository @Inject constructor(
         return sessionDataStore.deleteSession()
     }
 
-    fun postLogin(username: String, password: String): LiveData<Result<LoginResponse>> = liveData {
+    fun postLogin(
+        username: String,
+        password: String
+    ): LiveData<Result<PostLoginResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.postLogin(username, password)
+            val response = apiService.postLogin(
+                username,
+                password
+            )
             sessionDataStore.postSession(
                 SessionEntity(
                     "${response.tokenType} ${response.accessToken}",
-                    response.data?.idPns.toString(),
+                    response.data?.idPns,
                     response.data?.level,
                     response.data?.nip,
                     response.data?.nama,
@@ -46,11 +52,16 @@ class Repository @Inject constructor(
         }
     }
 
-    fun postCariAktivitas(term: String): LiveData<Result<List<Aktivitas>>> = liveData {
+    fun postCariAktivitas(
+        term: String
+    ): LiveData<Result<List<Aktivitas>>> = liveData {
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
-            val response = apiService.postCariAktivitas(token, term)
+            val response = apiService.postCariAktivitas(
+                token,
+                term
+            )
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -58,18 +69,23 @@ class Repository @Inject constructor(
     }
 
     fun postInputAktivitas(
+        nip: String?,
         tanggal: String,
-        idAkt: String,
+        idAkt: Int,
         catatan: String,
         output: String,
         jamMulai: String,
         jamBerakhir: String
-    ): LiveData<Result<InputAktivitasResponse>> = liveData {
+    ): LiveData<Result<PostInputAktivitasResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val nip =  sessionDataStore.getSession().first().nip.toString()
+            val mNip = if (nip.isNullOrEmpty()) {
+                sessionDataStore.getSession().first().nip
+            } else {
+                nip
+            }
             val response = apiService.postInputAktivitas(
-                nip,
+                (mNip as String),
                 tanggal,
                 idAkt,
                 catatan,
@@ -84,31 +100,34 @@ class Repository @Inject constructor(
     }
 
     fun getTugasAktivitas(
-        idPns: String?,
-        bulan: String,
-        tahun: String
-    ): LiveData<Result<List<TugasAktivitasResponse>>> = liveData {
+        idPns: Int?,
+        bulan: Int,
+        tahun: Int
+    ): LiveData<Result<List<GetTugasAktivitasResponse>>> = liveData {
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
-            val response = if (idPns != null) {
-                apiService.getTugasAktivitas(token, idPns, bulan, tahun)
-            } else {
-                apiService.getTugasAktivitas(token, sessionDataStore.getSession().first().idPns.toString(), bulan, tahun)
-            }
+            val mIdPns = idPns ?: sessionDataStore.getSession().first().idPns
+            val response = apiService.getTugasAktivitas(
+                token,
+                (mIdPns as Int),
+                bulan,
+                tahun
+            )
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
         }
     }
 
-    fun deleteTugasAktivitas(
-        id: String
-    ): LiveData<Result<DeleteTugasAktivitasResponse>> = liveData {
+    fun deleteTugasAktivitas(id: Int): LiveData<Result<DeleteTugasAktivitasResponse>> = liveData {
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
-            val response = apiService.deleteTugasAktivitas(token, id)
+            val response = apiService.deleteTugasAktivitas(
+                token,
+                id
+            )
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
@@ -116,22 +135,27 @@ class Repository @Inject constructor(
     }
 
     fun postEditAktivitas(
-        id: String,
+        id: Int,
+        nip: String?,
         tanggal: String,
-        idAkt: String,
+        idAkt: Int,
         catatan: String,
         output: String,
         jamMulai: String,
         jamBerakhir: String
-    ): LiveData<Result<EditAktivitasResponse>> = liveData {
+    ): LiveData<Result<PostEditAktivitasResponse>> = liveData {
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
-            val nip = sessionDataStore.getSession().first().nip.toString()
+            val mNip = if (nip.isNullOrEmpty()) {
+                sessionDataStore.getSession().first().nip
+            } else {
+                nip
+            }
             val response = apiService.postEditAktivitas(
                 token,
                 id,
-                nip,
+                (mNip as String),
                 tanggal,
                 idAkt,
                 catatan,
@@ -149,10 +173,10 @@ class Repository @Inject constructor(
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
-            val idPns = sessionDataStore.getSession().first().idPns.toString()
+            val idPns = sessionDataStore.getSession().first().idPns
             val response = apiService.getTotalAktivitas(
                 token,
-                idPns
+                (idPns as Int)
             )
             emit(Result.Success(response))
         } catch (e: Exception) {
@@ -160,7 +184,7 @@ class Repository @Inject constructor(
         }
     }
 
-    fun getListBawahanResponse(): LiveData<Result<GetListBawahanResponse>> = liveData {
+    fun getListBawahan(): LiveData<Result<GetListBawahanResponse>> = liveData {
         emit(Result.Loading)
         try {
             val token = sessionDataStore.getSession().first().token.toString()
@@ -170,6 +194,30 @@ class Repository @Inject constructor(
                 token,
                 nip,
                 kodeJabatan
+            )
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun postVerifTugasAktivitas(
+        id: Int,
+        status: Boolean,
+        idPns: Int,
+        bulan: Int,
+        tahun: Int
+    ): LiveData<Result<PostVerifAktivitasResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val token = sessionDataStore.getSession().first().token.toString()
+            val response = apiService.postVerifTugasAktivitas(
+                token,
+                id,
+                status,
+                idPns,
+                bulan,
+                tahun
             )
             emit(Result.Success(response))
         } catch (e: Exception) {

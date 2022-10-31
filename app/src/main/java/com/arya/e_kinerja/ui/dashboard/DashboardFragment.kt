@@ -30,6 +30,10 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpView()
+    }
+
+    private fun setUpView() {
         observeGetSession()
         observeGetTotalAktivitas()
     }
@@ -48,8 +52,8 @@ class DashboardFragment : Fragment() {
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        binding.tvPersentase.text =
-                            resources.getString(R.string.total_aktivitas, result.data.data)
+                        binding.tvNilaiAktivitas.text =
+                            resources.getString(R.string.total_aktivitas_placeholder, result.data.data)
                     }
                     is Result.Error -> {}
                 }

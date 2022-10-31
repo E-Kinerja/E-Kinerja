@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">E-Kinerja Sidoarjo</string>
 
     <string name="logo_kabupaten_sidoarjo">Logo Kabupaten Sidoarjo</string>
@@ -15,6 +16,7 @@
 
     <string name="total_aktivitas_placeholder">%s%%</string>
     <string name="total_aktivitas_default">0%</string>
+    <string name="capaian_aktivitas">Capaian Aktivitas</string>
     <string name="logo_profil">Logo profil</string>
 
     <string name="pemberitahuan">PEMBERITAHUAN</string>
@@ -56,6 +58,7 @@
     <string name="penilaian_aktivitas">Penilaian Aktivitas</string>
     <string name="laporan_aktivitas">Laporan Aktivitas</string>
     <string name="logout">Logout</string>
+    <string name="edit_aktivitas">Edit Aktivitas</string>
 
     <string-array name="bulan">
         <item>Januari</item>
@@ -76,4 +79,5 @@
         <item>2021</item>
         <item>2022</item>
     </string-array>
+
 </resources>

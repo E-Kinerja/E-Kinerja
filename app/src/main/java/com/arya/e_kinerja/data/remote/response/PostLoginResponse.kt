@@ -2,7 +2,8 @@ package com.arya.e_kinerja.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponse(
+data class PostLoginResponse(
+
     @field:SerializedName("message")
     val message: String? = null,
 
@@ -17,6 +18,7 @@ data class LoginResponse(
 )
 
 data class Data(
+
     @field:SerializedName("user_id")
     val userId: Int? = null,
 

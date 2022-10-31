@@ -2,7 +2,7 @@ package com.arya.e_kinerja.data.local.entity
 
 class SessionEntity(
     val token: String? = null,
-    val idPns: String? = null,
+    val idPns: Int? = null,
     val level: String? = null,
     val nip: String? = null,
     val nama: String? = null,

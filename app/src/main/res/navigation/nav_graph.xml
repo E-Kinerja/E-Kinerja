@@ -60,7 +60,11 @@
         android:id="@+id/penilaianAktivitasFragment"
         android:name="com.arya.e_kinerja.ui.penilaian_aktivitas.PenilaianAktivitasFragment"
         android:label="Penilaian Aktivitas"
-        tools:layout="@layout/fragment_penilaian_aktivitas" />
+        tools:layout="@layout/fragment_penilaian_aktivitas" >
+        <action
+            android:id="@+id/action_penilaianAktivitasFragment_to_inputAktivitasFragment"
+            app:destination="@id/inputAktivitasFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/inputAktivitasFragment"
@@ -72,9 +76,17 @@
             app:destination="@id/tugasAktivitasFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_inputAktivitasFragment_to_penilaianAktivitasFragment"
+            app:destination="@id/penilaianAktivitasFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
         <argument
             android:name="tugasAktivitas"
-            app:argType="com.arya.e_kinerja.data.remote.response.TugasAktivitasResponse"
+            app:argType="com.arya.e_kinerja.data.remote.response.GetTugasAktivitasResponse"
             app:nullable="true" />
+        <argument
+            android:name="nip"
+            app:argType="string" />
     </fragment>
 </navigation>

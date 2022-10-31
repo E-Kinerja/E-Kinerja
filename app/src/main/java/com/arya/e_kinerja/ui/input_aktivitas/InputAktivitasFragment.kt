@@ -1,5 +1,6 @@
 package com.arya.e_kinerja.ui.input_aktivitas
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,9 @@ import com.arya.e_kinerja.R
 import com.arya.e_kinerja.adapter.AktivitasArrayAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentInputAktivitasBinding
+import com.arya.e_kinerja.ui.main.MainActivity
+import com.arya.e_kinerja.utils.createLoadingDialog
+import com.arya.e_kinerja.utils.dateFormat
 import com.arya.e_kinerja.utils.openMaterialDatePicker
 import com.arya.e_kinerja.utils.openMaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,8 +31,11 @@ class InputAktivitasFragment : Fragment() {
     private val args: InputAktivitasFragmentArgs by navArgs()
 
     private lateinit var aktivitasArrayAdapter: AktivitasArrayAdapter
+    private lateinit var loadingDialog: Dialog
 
-    private var idAktivitas = 0
+    private var idTugasAktivitas: Int? = null
+    private var nip: String? = null
+    private var idAktivitas: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,19 +48,28 @@ class InputAktivitasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingDialog = createLoadingDialog(requireContext(), layoutInflater)
+
         setUpView()
         setUpAction()
     }
 
     private fun setUpView() {
-        if (args.tugasAktivitas?.id != null) {
+        nip = args.nip
+
+        if (args.tugasAktivitas != null) {
+            (activity as MainActivity).supportActionBar?.title = resources.getString(R.string.edit_aktivitas)
+
+            idTugasAktivitas = args.tugasAktivitas?.id as Int
+            idAktivitas = args.tugasAktivitas?.aktivitas?.id
+
             binding.edtTanggal.setText(args.tugasAktivitas?.tglakt)
             binding.edtAktivitas.setText(args.tugasAktivitas?.aktivitas?.bkNamaKegiatan)
             binding.edtCatatan.setText(args.tugasAktivitas?.detailakt)
             binding.edtOutput.setText(args.tugasAktivitas?.output?.split(" ")?.get(0))
             binding.edtSatuan.setText(args.tugasAktivitas?.aktivitas?.bkSatuanOutput)
-            binding.edtJamMulai.setText(args.tugasAktivitas?.jammulai)
-            binding.edtJamBerakhir.setText(args.tugasAktivitas?.jamselesai)
+            binding.edtJamMulai.setText(dateFormat(args.tugasAktivitas?.jammulai, "HH:mm"))
+            binding.edtJamBerakhir.setText(dateFormat(args.tugasAktivitas?.jamselesai, "HH:mm"))
             binding.btnSimpan.text = resources.getString(R.string.update)
         }
     }
@@ -84,20 +100,19 @@ class InputAktivitasFragment : Fragment() {
             val jamMulai = binding.edtJamMulai.text.toString()
             val jamBerakhir = binding.edtJamBerakhir.text.toString()
 
-            if (args.tugasAktivitas?.id != null) {
-                val idTugasAktivitas = args.tugasAktivitas?.id.toString()
+            if (args.tugasAktivitas != null) {
                 observePostEditAktivitas(
-                    idTugasAktivitas, tanggal, args.tugasAktivitas?.aktivitas?.id.toString(), catatan, output, jamMulai, jamBerakhir
+                    (idTugasAktivitas as Int), nip, tanggal, (idAktivitas as Int), catatan, output, jamMulai, jamBerakhir
                 )
             } else {
                 observePostInputAktivitas(
-                    tanggal, idAktivitas.toString(), catatan, output, jamMulai, jamBerakhir
+                    nip, tanggal, (idAktivitas as Int), catatan, output, jamMulai, jamBerakhir
                 )
             }
         }
 
         binding.edtAktivitas.addTextChangedListener(onTextChanged = { text: CharSequence?, _, _, _ ->
-            if (text != null && text.length >= 3) {
+            if (text.toString().length >= 3) {
                 observePostCariAktivitas(text)
             }
         })
@@ -105,7 +120,7 @@ class InputAktivitasFragment : Fragment() {
         binding.edtAktivitas.setOnItemClickListener { _, _, position, _ ->
             val aktivitas = aktivitasArrayAdapter.getItem(position)
 
-            idAktivitas = aktivitas?.id ?: 0
+            idAktivitas = aktivitas?.id
 
             binding.edtAktivitas.setText(aktivitas?.bkNamaKegiatan)
             binding.edtSatuan.setText(aktivitas?.bkSatuanOutput)
@@ -113,52 +128,69 @@ class InputAktivitasFragment : Fragment() {
     }
 
     private fun observePostInputAktivitas(
+        nip: String?,
         tanggal: String,
-        idAkt: String,
+        idAkt: Int,
         catatan: String,
         output: String,
         jamMulai: String,
         jamBerakhir: String
     ) {
         viewModel.postInputAktivitas(
-            tanggal, idAkt, catatan, output, jamMulai, jamBerakhir
+            nip, tanggal, idAkt, catatan, output, jamMulai, jamBerakhir
         ).observe(viewLifecycleOwner) { result ->
-            if (result != null)
+            if (result != null) {
                 when (result) {
-                    is Result.Loading -> {}
+                    is Result.Loading -> {
+                        loadingDialog.show()
+                    }
                     is Result.Success -> {
+                        loadingDialog.dismiss()
                         findNavController().navigate(
                             R.id.action_inputAktivitasFragment_to_tugasAktivitasFragment
                         )
                     }
-                    is Result.Error -> {}
+                    is Result.Error -> {
+                        loadingDialog.dismiss()
+                    }
                 }
+            }
         }
     }
 
     private fun observePostEditAktivitas(
-        id: String,
+        id: Int,
+        nip: String?,
         tanggal: String,
-        idAkt: String,
+        idAkt: Int,
         catatan: String,
         output: String,
         jamMulai: String,
         jamBerakhir: String
     ) {
-
         viewModel.postEditTugasAktivitas(
-            id, tanggal, idAkt, catatan, output, jamMulai, jamBerakhir
+            id, nip, tanggal, idAkt, catatan, output, jamMulai, jamBerakhir
         ).observe(viewLifecycleOwner) { result ->
-            if (result != null)
+            if (result != null) {
                 when (result) {
-                    is Result.Loading -> {}
+                    is Result.Loading -> {
+                        loadingDialog.show()
+                    }
                     is Result.Success -> {
+                        loadingDialog.dismiss()
                         findNavController().navigate(
-                            R.id.action_inputAktivitasFragment_to_tugasAktivitasFragment
+                            if (nip.isNullOrEmpty()) {
+                                R.id.action_inputAktivitasFragment_to_tugasAktivitasFragment
+                            } else {
+                                R.id.action_inputAktivitasFragment_to_penilaianAktivitasFragment
+                            }
                         )
                     }
-                    is Result.Error -> {}
+                    is Result.Error -> {
+                        loadingDialog.dismiss()
+                    }
                 }
+            }
         }
     }
 
@@ -169,10 +201,9 @@ class InputAktivitasFragment : Fragment() {
                     is Result.Loading -> {}
                     is Result.Success -> {
                         aktivitasArrayAdapter = AktivitasArrayAdapter(
-                            requireContext(),
-                            R.layout.item_dropdown,
-                            result.data
+                            requireContext(), R.layout.item_dropdown, result.data
                         )
+                        aktivitasArrayAdapter.notifyDataSetChanged()
                         binding.edtAktivitas.setAdapter(aktivitasArrayAdapter)
                     }
                     is Result.Error -> {}

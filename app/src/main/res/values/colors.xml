@@ -9,13 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     
     <!-- App Theme Color -->
-    <color name="cyan">#21C998</color>
-    <color name="light_cyan">#C7FFF2</color>
-    <color name="blue">#0178FF</color>
-    <color name="yellow">#FEC107</color>
-    <color name="red">#DC3546</color>
-    <color name="grey">#E8E9EC</color>
-    <color name="light_grey">#F5F6FA</color>
-    <color name="light_green">#E8FFE8</color>
+    <color name="teal">#FF21C998</color>
+    <color name="blue">#FF0178FF</color>
+    <color name="yellow">#FFFEC107</color>
+    <color name="red">#FFDC3546</color>
+    <color name="cloud">#FFE0E0E0</color>
+    <color name="indigo">#FFF5F6FA</color>
+    <color name="grey">#FF666666</color>
 
 </resources>

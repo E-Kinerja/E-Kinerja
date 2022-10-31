@@ -9,7 +9,7 @@ interface ApiService {
     suspend fun postLogin(
         @Field("username") username: String,
         @Field("password") password: String
-    ): LoginResponse
+    ): PostLoginResponse
 
     @FormUrlEncoded
     @POST("/api/find-aktivitas")
@@ -23,51 +23,62 @@ interface ApiService {
     suspend fun postInputAktivitas(
         @Field("nip") nip: String,
         @Field("tanggal") tanggal: String,
-        @Field("id_akt") idAkt: String,
+        @Field("id_akt") idAkt: Int,
         @Field("catatan") catatan: String,
         @Field("output") output: String,
         @Field("jam_mulai") jamMulai: String,
         @Field("jam_berakhir") jamBerakhir: String
-    ): InputAktivitasResponse
+    ): PostInputAktivitasResponse
 
     @GET("/api/list-aktivitas")
     suspend fun getTugasAktivitas(
         @Header("Authorization") token: String,
-        @Query("id_pns") idPns: String,
-        @Query("bulan") bulan: String,
-        @Query("tahun") tahun: String
-    ): List<TugasAktivitasResponse>
+        @Query("id_pns") idPns: Int,
+        @Query("bulan") bulan: Int,
+        @Query("tahun") tahun: Int
+    ): List<GetTugasAktivitasResponse>
 
     @DELETE("/api/del-aktivitas/{id}")
     suspend fun deleteTugasAktivitas(
         @Header("Authorization") token: String,
-        @Path("id") id: String
+        @Path("id") id: Int
     ): DeleteTugasAktivitasResponse
 
     @FormUrlEncoded
     @POST("/api/edit-aktivitas")
     suspend fun postEditAktivitas(
         @Header("Authorization") token: String,
-        @Field("id") id: String,
+        @Field("id") id: Int,
         @Field("nip") nip: String,
         @Field("tanggal") tanggal: String,
-        @Field("id_akt") idAkt: String,
+        @Field("id_akt") idAkt: Int,
         @Field("catatan") catatan: String,
         @Field("output") output: String,
         @Field("jam_mulai") jamMulai: String,
         @Field("jam_berakhir") jamBerakhir: String
-    ): EditAktivitasResponse
+    ): PostEditAktivitasResponse
 
     @GET("/api/total-aktivitas")
     suspend fun getTotalAktivitas(
         @Header("Authorization") token: String,
-        @Query("id_pns") idPns: String
+        @Query("id_pns") idPns: Int
     ): GetTotalAktivitasResponse
 
-    @GET("api/aktivitas-bawahan")
+    @GET("/api/aktivitas-bawahan")
     suspend fun getListBawahan(
         @Header("Authorization") token: String,
         @Query("nip") nip: String,
         @Query("kode_jabatan") kodeJabatan: String
     ): GetListBawahanResponse
+
+    @FormUrlEncoded
+    @POST("/api/verif-aktivitas")
+    suspend fun postVerifTugasAktivitas(
+        @Header("Authorization") token: String,
+        @Field("idaktivitas") id: Int,
+        @Field("status") status: Boolean,
+        @Field("bawahan") idPns: Int,
+        @Field("bulan") bulan: Int,
+        @Field("tahun") tahun: Int
+    ): PostVerifAktivitasResponse
 }

@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
 @Parcelize
-data class TugasAktivitasResponse(
+data class GetTugasAktivitasResponse(
+
 	@field:SerializedName("id")
 	val id: Int? = null,
 
@@ -48,48 +49,61 @@ data class TugasAktivitasResponse(
 ) : Parcelable
 
 data class Aktivitas(
+
 	@field:SerializedName("id")
 	val id: Int? = null,
-
-	@field:SerializedName("bk_id")
-	val bkId: Int? = null,
 
 	@field:SerializedName("bk_nama_kegiatan")
 	val bkNamaKegiatan: String? = null,
 
 	@field:SerializedName("bk_satuan_output")
-	val bkSatuanOutput: String? = null,
-
-	@field:SerializedName("bk_kelompok")
-	val bkKelompok: String? = null,
-
-	@field:SerializedName("bk_waktu")
-	val bkWaktu: String? = null,
-
-	@field:SerializedName("bk_nilai_kegiatan")
-	val bkNilaiKegiatan: String? = null,
-
-	@field:SerializedName("bk_kesulitan")
-	val bkKesulitan: String? = null,
-
-	@field:SerializedName("bk_jnsjab")
-	val bkJnsjab: String? = null,
-
-	@field:SerializedName("bk_nmjab")
-	val bkNmjab: String? = null,
-
-	@field:SerializedName("bk_ak")
-	val bkAk: String? = null,
-
-	@field:SerializedName("bk_pelaksanakeg")
-	val bkPelaksanakeg: String? = null,
-
-	@field:SerializedName("bk_kota")
-	val bkKota: String? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: String? = null,
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null
+	val bkSatuanOutput: String? = null
 )
+
+//data class Aktivitas(
+//
+//	@field:SerializedName("id")
+//	val id: Int? = null,
+//
+//	@field:SerializedName("bk_id")
+//	val bkId: Int? = null,
+//
+//	@field:SerializedName("bk_nama_kegiatan")
+//	val bkNamaKegiatan: String? = null,
+//
+//	@field:SerializedName("bk_satuan_output")
+//	val bkSatuanOutput: String? = null,
+//
+//	@field:SerializedName("bk_kelompok")
+//	val bkKelompok: String? = null,
+//
+//	@field:SerializedName("bk_waktu")
+//	val bkWaktu: String? = null,
+//
+//	@field:SerializedName("bk_nilai_kegiatan")
+//	val bkNilaiKegiatan: String? = null,
+//
+//	@field:SerializedName("bk_kesulitan")
+//	val bkKesulitan: String? = null,
+//
+//	@field:SerializedName("bk_jnsjab")
+//	val bkJnsjab: String? = null,
+//
+//	@field:SerializedName("bk_nmjab")
+//	val bkNmjab: String? = null,
+//
+//	@field:SerializedName("bk_ak")
+//	val bkAk: String? = null,
+//
+//	@field:SerializedName("bk_pelaksanakeg")
+//	val bkPelaksanakeg: String? = null,
+//
+//	@field:SerializedName("bk_kota")
+//	val bkKota: String? = null,
+//
+//	@field:SerializedName("created_at")
+//	val createdAt: String? = null,
+//
+//	@field:SerializedName("updated_at")
+//	val updatedAt: String? = null
+//)

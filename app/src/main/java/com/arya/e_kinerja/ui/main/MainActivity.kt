@@ -15,6 +15,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.databinding.ActivityMainBinding
 import com.arya.e_kinerja.databinding.NavHeaderMainBinding
+import com.arya.e_kinerja.utils.gone
+import com.arya.e_kinerja.utils.visible
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,11 +56,11 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener{ _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment, R.id.loginFragment -> {
-                    binding.appBarMain.toolbar.visibility = View.GONE
+                    binding.appBarMain.toolbar.gone()
                     drawerLayout.close()
                 }
                 else -> {
-                    binding.appBarMain.toolbar.visibility = View.VISIBLE
+                    binding.appBarMain.toolbar.visible()
                 }
             }
         }

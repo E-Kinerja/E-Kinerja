@@ -3,6 +3,7 @@ package com.arya.e_kinerja.data.remote.response
 import com.google.gson.annotations.SerializedName
 
 data class GetListBawahanResponse(
+
 	@field:SerializedName("code")
 	val code: Int? = null,
 
@@ -14,6 +15,7 @@ data class GetListBawahanResponse(
 )
 
 data class DataItem(
+
 	@field:SerializedName("id_pns")
 	val idPns: Int? = null,
 

@@ -43,6 +43,12 @@ class TugasAktivitasFragment : Fragment() {
         setUpView()
         setUpRecyclerView()
         setUpAction()
+
+        observeGetTugasAktivitas(
+            null,
+            resources.getStringArray(R.array.bulan).indexOf(binding.edtBulan.text.toString()) + 1,
+            binding.edtTahun.text.toString().toInt()
+        )
     }
 
     private fun setUpView() {
@@ -52,15 +58,16 @@ class TugasAktivitasFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         tugasAktivitasAdapter = TugasAktivitasAdapter()
+
         tugasAktivitasAdapter.onBtnEditClick = {
             findNavController().navigate(
                 TugasAktivitasFragmentDirections
-                    .actionTugasAktivitasFragmentToInputAktivitasFragment(it)
+                    .actionTugasAktivitasFragmentToInputAktivitasFragment(it, "")
             )
         }
 
         tugasAktivitasAdapter.onBtnHapusClick = {
-            observeDeleteTugasAktivitas(it.id.toString())
+            observeDeleteTugasAktivitas(it.id as Int)
         }
 
         binding.rvTugasAktivitas.layoutManager = LinearLayoutManager(context)
@@ -68,31 +75,31 @@ class TugasAktivitasFragment : Fragment() {
     }
 
     private fun setUpAction() {
-        binding.btnInputAktivitas.setOnClickListener {
-            findNavController().navigate(
-                TugasAktivitasFragmentDirections
-                    .actionTugasAktivitasFragmentToInputAktivitasFragment(null)
-            )
-        }
-
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
             currentBulan = position + 1
-            observeGetTugasAktivitas(currentBulan.toString(), currentTahun.toString())
+            observeGetTugasAktivitas(null, currentBulan, currentTahun)
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->
             currentTahun = adapterView.adapter.getItem(position) as Int
-            observeGetTugasAktivitas(currentBulan.toString(), currentTahun.toString())
+            observeGetTugasAktivitas(null, currentBulan, currentTahun)
+        }
+
+        binding.fabInputAktivitas.setOnClickListener {
+            findNavController().navigate(
+                TugasAktivitasFragmentDirections
+                    .actionTugasAktivitasFragmentToInputAktivitasFragment(null, "")
+            )
         }
     }
 
-    private fun observeDeleteTugasAktivitas(id: String) {
+    private fun observeDeleteTugasAktivitas(id: Int) {
         viewModel.deleteTugasAktivitas(id).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        observeGetTugasAktivitas(currentBulan.toString(), currentTahun.toString())
+                        observeGetTugasAktivitas(null, currentBulan, currentTahun)
                     }
                     is Result.Error -> {}
                 }
@@ -100,8 +107,9 @@ class TugasAktivitasFragment : Fragment() {
         }
     }
 
-    private fun observeGetTugasAktivitas(bulan: String, tahun: String) {
-        viewModel.getTugasAktivitas(bulan, tahun).observe(viewLifecycleOwner) { result ->
+    @Suppress("SameParameterValue")
+    private fun observeGetTugasAktivitas(idPns: Int?, bulan: Int, tahun: Int) {
+        viewModel.getTugasAktivitas(idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}
@@ -120,15 +128,12 @@ class TugasAktivitasFragment : Fragment() {
         val arrayBulan = resources.getStringArray(R.array.bulan)
         val arrayTahun = resources.getStringArray(R.array.tahun)
 
-        val adapterBulan = ArrayAdapter(requireContext(), R.layout.item_dropdown, arrayBulan)
-        val adapterTahun = ArrayAdapter(requireContext(), R.layout.item_dropdown, arrayTahun)
+        binding.edtBulan.setAdapter(
+            ArrayAdapter(requireContext(), R.layout.item_dropdown, R.id.tv_dropdown_item, arrayBulan)
+        )
 
-        binding.edtBulan.setAdapter(adapterBulan)
-        binding.edtTahun.setAdapter(adapterTahun)
-
-        observeGetTugasAktivitas(
-            (arrayBulan.indexOf(binding.edtBulan.text.toString()) + 1).toString(),
-            binding.edtTahun.text.toString()
+        binding.edtTahun.setAdapter(
+            ArrayAdapter(requireContext(), R.layout.item_dropdown, R.id.tv_dropdown_item, arrayTahun)
         )
     }
 

@@ -30,20 +30,20 @@ class BawahanArrayAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(
+        var mConvertView = convertView
+        if (mConvertView == null) {
+            mConvertView = LayoutInflater.from(context).inflate(
                 R.layout.item_dropdown, parent, false
             )
         }
 
-        val tvDropdownItem = view!!.findViewById<TextView>(R.id.tv_dropdown_item)
+        val tvDropdownItem = mConvertView!!.findViewById<TextView>(R.id.tv_dropdown_item)
 
         val bawahan: DataItem? = getItem(position)
         if (bawahan != null) {
             tvDropdownItem.text = bawahan.nama
         }
 
-        return view
+        return mConvertView
     }
 }

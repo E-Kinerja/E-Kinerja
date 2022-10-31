@@ -2,11 +2,11 @@ package com.arya.e_kinerja.ui.input_aktivitas
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.Repository
+import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.remote.response.Aktivitas
-import com.arya.e_kinerja.data.remote.response.EditAktivitasResponse
-import com.arya.e_kinerja.data.remote.response.InputAktivitasResponse
+import com.arya.e_kinerja.data.remote.response.PostEditAktivitasResponse
+import com.arya.e_kinerja.data.remote.response.PostInputAktivitasResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,14 +20,16 @@ class InputAktivitasViewModel @Inject constructor(
     }
 
     fun postInputAktivitas(
+        nip: String?,
         tanggal: String,
-        idAkt: String,
+        idAkt: Int,
         catatan: String,
         output: String,
         jamMulai: String,
         jamBerakhir: String
-    ): LiveData<Result<InputAktivitasResponse>> {
+    ): LiveData<Result<PostInputAktivitasResponse>> {
         return repository.postInputAktivitas(
+            nip,
             tanggal,
             idAkt,
             catatan,
@@ -38,16 +40,18 @@ class InputAktivitasViewModel @Inject constructor(
     }
 
     fun postEditTugasAktivitas(
-        id: String,
+        id: Int,
+        nip: String?,
         tanggal: String,
-        idAkt: String,
+        idAkt: Int,
         catatan: String,
         output: String,
         jamMulai: String,
         jamBerakhir: String
-    ): LiveData<Result<EditAktivitasResponse>> {
+    ): LiveData<Result<PostEditAktivitasResponse>> {
         return repository.postEditAktivitas(
             id,
+            nip,
             tanggal,
             idAkt,
             catatan,
