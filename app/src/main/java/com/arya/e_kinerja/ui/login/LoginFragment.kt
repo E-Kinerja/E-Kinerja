@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.arya.e_kinerja.R
@@ -41,6 +42,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun setUpAction() {
+        binding.edtUsername.addTextChangedListener(onTextChanged = { _, _, _, _ ->
+            binding.inpUsername.error = null
+        })
+
+        binding.edtPassword.addTextChangedListener(onTextChanged = { _, _, _, _ ->
+            binding.inpPassword.error = null
+        })
+
         binding.btnLogin.setOnClickListener {
             val username = binding.edtUsername.text.toString()
             val password = binding.edtPassword.text.toString()
