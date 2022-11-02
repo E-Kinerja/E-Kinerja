@@ -71,10 +71,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         notificationWorker = NotificationWorker()
-        notificationWorker.setOneTimeAlarm(
+        notificationWorker.setRepeatingAlarm(
             this,
-            NotificationWorker.TYPE_ONE_TIME,
-            NotificationWorker.MESSAGE_ONE_TIME
+            NotificationWorker.TYPE_REPEATING,
+            NotificationWorker.MESSAGE_REPEATING
             )
     }
 
