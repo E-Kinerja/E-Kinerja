@@ -8,7 +8,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="username_kosong">Masukkan username</string>
-    <string name="password_kosong">Mauskkan password</string>
+    <string name="password_kosong">Masukkan password</string>
 
     <string name="loading">Loading…</string>
 
@@ -16,14 +16,14 @@
 
     <string name="total_aktivitas_placeholder">%s%%</string>
     <string name="total_aktivitas_default">0%</string>
-    <string name="capaian_aktivitas">Capaian Aktivitas</string>
+    <string name="capaian_aktivitas">Capaian Aktivitas ( %s )</string>
     <string name="logo_profil">Logo profil</string>
 
     <string name="pemberitahuan">PEMBERITAHUAN</string>
     <string name="pemberitahuan_1">Pengisian aktivitas harian periode 01 – 07 terakhir pada tanggal 08</string>
     <string name="pemberitahuan_2">Pengisian aktivitas harian Periode 08 – 15 terakhir pada tanggal 16</string>
     <string name="pemberitahuan_3">Pengisian aktivitas harian Periode 16 – 22 terakhir pada tanggal 23</string>
-    <string name="pemberitahuan_4">Pengisian aktivitas harian Periode 23 – 31 terakhir pada tanggal 01 bulan berikutnya</string>
+    <string name="pemberitahuan_4">Pengisian aktivitas harian Periode 23 – %d terakhir pada tanggal 01 bulan berikutnya</string>
 
     <string name="input_aktivitas">Input Aktivitas</string>
 
