@@ -41,15 +41,13 @@ class LaporanAktivitasFragment : Fragment() {
 
     private lateinit var laporanAktivitasAdapter: LaporanAktivitasAdapter
     private lateinit var sessionEntity: SessionEntity
-    private lateinit var cell: PdfPCell
-    private lateinit var bitmap: Bitmap
 
     private var isCardPejabatExpanded = false
     private var isCardPegawaiExpanded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentLaporanAktivitasBinding.inflate(inflater, container, false)
         return binding.root
@@ -220,8 +218,8 @@ class LaporanAktivitasFragment : Fragment() {
         table1.addCell(createCell(Phrase("Jabatan", normalFont), null, alignLeft, null, 5F, null, null))
         table1.addCell(createCell(Phrase(sessionEntity.nama.toString(), normalFont), null, alignLeft, null, 5F, null, null))
 
-        table1.addCell(createCell(Phrase("Jabatan", normalFont), null, alignLeft, null, 5F, null, 3))
-        table1.addCell(createCell(Phrase("Jabatan Atasan", normalFont), null, alignLeft, null, 5F, null, 3))
+        table1.addCell(createCell(Phrase("Jabatan", normalFont), null, alignLeft, null, 5F, null, 2))
+        table1.addCell(createCell(Phrase("Jabatan Atasan", normalFont), null, alignLeft, null, 5F, null, 2))
 
         table1.addCell(createCell(Phrase("Insitusi", normalFont), null, alignLeft, null, 5F, null, null))
         table1.addCell(createCell(Phrase(sessionEntity.unitKerja.toString(), normalFont), null, alignLeft, null, 5F, null, null))
@@ -233,11 +231,10 @@ class LaporanAktivitasFragment : Fragment() {
         table2.setWidths(floatArrayOf(1F, 2F, 6F, 2F, 1F))
         table2.spacingBefore = 15F
 
-        table2.addCell(createCell(Phrase("No", boldFont), null, alignCenter, null,5F, null, null))
-        table2.addCell(createCell(Phrase("Tanggal", boldFont), null, alignCenter, null,5F, null, null))
-        table2.addCell(createCell(Phrase("Aktivitas", boldFont), null, alignCenter, null,5F, null, null))
-        table2.addCell(createCell(Phrase("Output", boldFont), null, alignCenter, null,5F, null, null))
-        table2.addCell(createCell(Phrase("Durasi (Menit)", boldFont), null, alignCenter, null,5F, null, null))
+        val keterangan = arrayOf("No", "Tanggal", "Aktivitas", "Output", "Durasi (Menit)")
+        for (i in 0..4) {
+            table2.addCell(createCell(Phrase(keterangan[i], boldFont), null, alignCenter, null,5F, null, null))
+        }
 
         for (i in 1..laporanAktivitasAdapter.itemCount){
             val tglAkt = laporanAktivitasAdapter.currentList[i - 1].tglakt.toString()
