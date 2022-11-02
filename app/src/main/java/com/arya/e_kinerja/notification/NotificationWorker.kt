@@ -6,15 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.arya.e_kinerja.R
-import java.text.SimpleDateFormat
 import java.util.*
 
 class NotificationWorker : BroadcastReceiver() {
+
 
     override fun onReceive(context: Context, intent: Intent) {
         val type = intent.getStringExtra(EXTRA_TYPE)
@@ -23,69 +22,60 @@ class NotificationWorker : BroadcastReceiver() {
         val title = if (type.equals(TYPE_ONE_TIME, ignoreCase = true)) TYPE_ONE_TIME else TYPE_REPEATING
         val notifId = if (type.equals(TYPE_ONE_TIME, ignoreCase = true)) ID_ONETIME else ID_REPEATING
 
-        showToast(context, title, message)
-
-        if (message != null) {
-            showAlarmNotification(context, title, message, notifId)
+        val calendar = Calendar.getInstance()
+        when(calendar.get(Calendar.DAY_OF_MONTH)) {
+            7, 15, 22, calendar.getActualMaximum(Calendar.DAY_OF_MONTH) -> {
+                showAlarmNotification(context, title, message.toString(), notifId)
+            }
         }
     }
 
-    private fun showToast(context: Context, title: String, message: String?) {
-        Toast.makeText(context, "$title : $message", Toast.LENGTH_LONG).show()
-    }
-
     @RequiresApi(Build.VERSION_CODES.M)
-    fun setOneTimeAlarm(context: Context, type: String, message: String) {
+    fun setRepeatingAlarm(context: Context, type: String, message: String) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, NotificationWorker::class.java)
         intent.putExtra(EXTRA_MESSAGE, message)
         intent.putExtra(EXTRA_TYPE, type)
 
         val calendar = Calendar.getInstance()
-        val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
-        val monthFormat = SimpleDateFormat("MM", Locale.getDefault())
-        val dateFormat = SimpleDateFormat("dd", Locale.getDefault())
-        val hourFormat = SimpleDateFormat("HH", Locale.getDefault())
-        val minuteFormat = SimpleDateFormat("mm", Locale.getDefault())
-
-        val year = yearFormat.format(calendar.time).toInt()
-        val month = monthFormat.format(calendar.time).toInt()
-        val date = dateFormat.format(calendar.time).toInt()
-        val hour = hourFormat.format(calendar.time).toInt()
-        val minute = minuteFormat.format(calendar.time).toInt()
-        val second = 0
-
-        calendar.set(year, month - 1, date, hour, minute, second)
+        calendar.set(Calendar.HOUR_OF_DAY, 6)
 
         val pendingIntent = PendingIntent.getBroadcast(context, ID_ONETIME, intent, PendingIntent.FLAG_IMMUTABLE)
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+//        val pendingIntent = NavDeepLinkBuilder(context)
+//            .setComponentName(MainActivity::class.java)
+//            .setGraph(R.navigation.nav_graph)
+//            .setDestination(R.id.tugasAktivitasFragment)
+//            .createPendingIntent()
 
-        Toast.makeText(
-            context,
-            "Alarm is set to $year-$month-$date $hour:${minute}:$second",
-            Toast.LENGTH_LONG
-        ).show()
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_HALF_DAY,
+            pendingIntent
+        )
     }
 
     private fun showAlarmNotification(context: Context, title: String, message: String, notifId: Int) {
         val channelId = "channel 1"
-        val channelName = "notification worker"
+        val channelName = "Reminder Notification"
 
         val notificationManagerCompat =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_fab_print)
+            .setSmallIcon(R.drawable.ic_logo_kab_sidoarjo)
             .setContentTitle(title)
             .setContentText(message)
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setSound(alarmSound)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationManager.IMPORTANCE_HIGH)
 
             channel.enableVibration(true)
             channel.vibrationPattern = longArrayOf(1000, 1000, 1000, 1000, 1000)
@@ -100,11 +90,11 @@ class NotificationWorker : BroadcastReceiver() {
     }
 
     companion object {
-        const val TYPE_ONE_TIME = "E-kinerja"
-        const val TYPE_REPEATING = "RepeatingAlarm"
+        const val TYPE_ONE_TIME = "OneTime"
+        const val TYPE_REPEATING = "HARI TERAKHIR PENGISIAN AKTIVITAS"
         const val EXTRA_MESSAGE = "message"
         const val EXTRA_TYPE = "type"
-        const val MESSAGE_ONE_TIME = "!HARI TERAKHIR PERIODE PENGISIAN! Dimohon untuk segera mengisi Tugas Aktivitas!"
+        const val MESSAGE_REPEATING = "Dimohon untuk segera mengisi Tugas Aktivitas!"
 
         private const val ID_ONETIME = 100
         private const val ID_REPEATING = 101
