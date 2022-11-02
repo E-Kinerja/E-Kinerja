@@ -39,8 +39,8 @@
     <string name="simpan">Simpan</string>
     <string name="update">Update</string>
 
-    <string name="penilai">PEJABAT PENILAI KINERJA</string>
-    <string name="pegawai">PEGAWAI YANG DINILAI</string>
+    <string name="penilai">Pejabat penilai kinerja</string>
+    <string name="pegawai">Pegawai yang dinilai</string>
     <string name="nama">Nama</string>
     <string name="nip">NIP</string>
     <string name="jabatan">Jabatan</string>
