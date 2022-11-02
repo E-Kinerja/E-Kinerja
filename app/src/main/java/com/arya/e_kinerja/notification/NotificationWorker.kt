@@ -10,10 +10,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.arya.e_kinerja.R
+import com.arya.e_kinerja.utils.getDayOfMonth
+import com.arya.e_kinerja.utils.getMaximumDayOfMonth
 import java.util.*
 
 class NotificationWorker : BroadcastReceiver() {
-
 
     override fun onReceive(context: Context, intent: Intent) {
         val type = intent.getStringExtra(EXTRA_TYPE)
@@ -22,9 +23,8 @@ class NotificationWorker : BroadcastReceiver() {
         val title = if (type.equals(TYPE_ONE_TIME, ignoreCase = true)) TYPE_ONE_TIME else TYPE_REPEATING
         val notifId = if (type.equals(TYPE_ONE_TIME, ignoreCase = true)) ID_ONETIME else ID_REPEATING
 
-        val calendar = Calendar.getInstance()
-        when(calendar.get(Calendar.DAY_OF_MONTH)) {
-            7, 15, 22, calendar.getActualMaximum(Calendar.DAY_OF_MONTH) -> {
+        when(getDayOfMonth()) {
+            7, 15, 22, getMaximumDayOfMonth() -> {
                 showAlarmNotification(context, title, message.toString(), notifId)
             }
         }

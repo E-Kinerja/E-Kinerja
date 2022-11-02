@@ -15,10 +15,7 @@ import com.arya.e_kinerja.adapter.LaporanAktivitasAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.databinding.FragmentLaporanAktivitasBinding
-import com.arya.e_kinerja.utils.dateFormat
-import com.arya.e_kinerja.utils.gone
-import com.arya.e_kinerja.utils.showSnackBar
-import com.arya.e_kinerja.utils.visible
+import com.arya.e_kinerja.utils.*
 import com.google.android.material.snackbar.Snackbar
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.BarcodeQRCode
@@ -72,6 +69,9 @@ class LaporanAktivitasFragment : Fragment() {
 
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
+
+        binding.tvCapaianAktivitas.text =
+            resources.getString(R.string.capaian_aktivitas, getNameOfTheMonth(requireContext(), null))
     }
 
     private fun setUpRecyclerView() {
@@ -114,6 +114,9 @@ class LaporanAktivitasFragment : Fragment() {
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
             currentBulan = position + 1
             observeGetTugasAktivitas(null, currentBulan, currentTahun)
+
+            binding.tvCapaianAktivitas.text =
+                resources.getString(R.string.capaian_aktivitas, getNameOfTheMonth(requireContext(), position))
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->

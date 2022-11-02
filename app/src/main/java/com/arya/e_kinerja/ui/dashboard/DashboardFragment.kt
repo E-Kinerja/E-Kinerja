@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentDashboardBinding
+import com.arya.e_kinerja.utils.getMaximumDayOfMonth
+import com.arya.e_kinerja.utils.getNameOfTheMonth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +38,12 @@ class DashboardFragment : Fragment() {
     private fun setUpView() {
         observeGetSession()
         observeGetTotalAktivitas()
+
+        binding.tvCapaianAktivitas.text =
+            resources.getString(R.string.capaian_aktivitas, getNameOfTheMonth(requireContext(), null))
+
+        binding.tvPemberitahuan4.text =
+            resources.getString(R.string.pemberitahuan_4, getMaximumDayOfMonth())
     }
 
     private fun observeGetSession() {

@@ -326,6 +326,60 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inp_tahun"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/white"
+                app:hintEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/card_pegawai"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/inp_bulan">
+
+                <AutoCompleteTextView
+                    android:id="@+id/edt_tahun"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:dropDownHeight="118dp"
+                    android:hint="@null"
+                    android:inputType="none"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inp_bulan"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/white"
+                app:hintEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/card_pegawai"
+                app:layout_constraintStart_toEndOf="@+id/inp_tahun"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/edt_bulan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:dropDownHeight="118dp"
+                    android:hint="@null"
+                    android:inputType="none"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_aktivitas"
                 android:layout_width="match_parent"
@@ -335,7 +389,7 @@
                 app:cardBackgroundColor="@color/yellow"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="0dp"
-                app:layout_constraintTop_toBottomOf="@id/card_pegawai"
+                app:layout_constraintTop_toBottomOf="@id/inp_tahun"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -376,60 +430,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inp_tahun"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/white"
-                app:hintEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/card_aktivitas"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/inp_bulan">
-
-                <AutoCompleteTextView
-                    android:id="@+id/edt_tahun"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:dropDownHeight="118dp"
-                    android:hint="@null"
-                    android:inputType="none"
-                    android:padding="16dp"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inp_bulan"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/white"
-                app:hintEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/card_aktivitas"
-                app:layout_constraintStart_toEndOf="@+id/inp_tahun"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <AutoCompleteTextView
-                    android:id="@+id/edt_bulan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:dropDownHeight="118dp"
-                    android:hint="@null"
-                    android:inputType="none"
-                    android:padding="16dp"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_tugas_aktivitas"
                 android:layout_width="match_parent"
@@ -437,7 +437,7 @@
                 android:layout_marginVertical="8dp"
                 android:layout_marginHorizontal="16dp"
                 android:overScrollMode="never"
-                app:layout_constraintTop_toBottomOf="@id/inp_tahun"
+                app:layout_constraintTop_toBottomOf="@id/card_aktivitas"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
