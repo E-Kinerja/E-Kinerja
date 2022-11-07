@@ -1,6 +1,5 @@
 package com.arya.e_kinerja.ui.laporan_aktivitas
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
@@ -15,8 +14,10 @@ import com.arya.e_kinerja.adapter.LaporanAktivitasAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.databinding.FragmentLaporanAktivitasBinding
-import com.arya.e_kinerja.utils.*
-import com.google.android.material.snackbar.Snackbar
+import com.arya.e_kinerja.utils.dateFormat
+import com.arya.e_kinerja.utils.getNameOfTheMonth
+import com.arya.e_kinerja.utils.gone
+import com.arya.e_kinerja.utils.visible
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.BarcodeQRCode
 import com.itextpdf.text.pdf.PdfPCell
@@ -35,9 +36,6 @@ class LaporanAktivitasFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: LaporanAktivitasViewModel by viewModels()
-
-    private var currentBulan = dateFormat(null, "MM").toInt()
-    private var currentTahun = dateFormat(null, "yyyy").toInt()
 
     private lateinit var laporanAktivitasAdapter: LaporanAktivitasAdapter
     private lateinit var sessionEntity: SessionEntity
@@ -65,11 +63,16 @@ class LaporanAktivitasFragment : Fragment() {
         observeGetSession()
         observeGetTotalAktivitas()
 
+        val currentBulan = dateFormat(null, "MM").toInt()
+        val currentTahun = dateFormat(null, "yyyy").toInt()
+
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
 
         binding.tvCapaianAktivitas.text =
             resources.getString(R.string.capaian_aktivitas, getNameOfTheMonth(requireContext(), null))
+
+        observeLaporanAktivitas()
     }
 
     private fun setUpRecyclerView() {
@@ -110,21 +113,21 @@ class LaporanAktivitasFragment : Fragment() {
         }
 
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
-            currentBulan = position + 1
-            observeGetTugasAktivitas(null, currentBulan, currentTahun)
+            viewModel.setBulan(position + 1)
+            viewModel.getLaporanAktivitas()
 
             binding.tvCapaianAktivitas.text =
                 resources.getString(R.string.capaian_aktivitas, getNameOfTheMonth(requireContext(), position))
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->
-            currentTahun = adapterView.adapter.getItem(position) as Int
-            observeGetTugasAktivitas(null, currentBulan, currentTahun)
+            viewModel.setTahun(adapterView.adapter.getItem(position).toString().toInt())
+            viewModel.getLaporanAktivitas()
         }
 
-        binding.fabPrintAktivitas.setOnClickListener {
-            createPDF()
-        }
+//        binding.fabPrintAktivitas.setOnClickListener {
+//            createPDF()
+//        }
     }
 
     private fun observeGetSession() {
@@ -153,9 +156,8 @@ class LaporanAktivitasFragment : Fragment() {
         }
     }
 
-    @Suppress("SameParameterValue")
-    private fun observeGetTugasAktivitas(idPns: Int?, bulan: Int, tahun: Int) {
-        viewModel.getTugasAktivitas(idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
+    private fun observeLaporanAktivitas() {
+        viewModel.laporanAktivitas.observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}
@@ -169,6 +171,9 @@ class LaporanAktivitasFragment : Fragment() {
     }
 
     private fun createPDF() {
+        val currentBulan = dateFormat(null, "MM").toInt()
+        val currentTahun = dateFormat(null, "yyyy").toInt()
+
         val bulan = resources.getStringArray(R.array.bulan)[currentBulan - 1].toString()
 
         val calendar = Calendar.getInstance()
@@ -294,11 +299,10 @@ class LaporanAktivitasFragment : Fragment() {
         document.add(table3)
 
         document.close()
-        binding.root.showSnackBar("PDF Berhasil Tersimpan", Snackbar.LENGTH_SHORT, null, binding.fabPrintAktivitas) {}
+//        binding.root.showSnackBar("PDF Berhasil Tersimpan", Snackbar.LENGTH_SHORT, null, binding.fabPrintAktivitas) {}
     }
 
     private fun createCell(phrase: Phrase?, image: Image?, hAlign: Int, border: BaseColor?, padding: Float?, colspan: Int?, rowspan: Int?): PdfPCell {
-
         val cell = if (phrase != null) PdfPCell(phrase) else PdfPCell(image)
         cell.horizontalAlignment = hAlign
         cell.verticalAlignment = Element.ALIGN_MIDDLE
@@ -331,12 +335,6 @@ class LaporanAktivitasFragment : Fragment() {
 
         binding.edtTahun.setAdapter(
             ArrayAdapter(requireContext(), R.layout.item_dropdown, R.id.tv_dropdown_item, arrayTahun)
-        )
-
-        observeGetTugasAktivitas(
-            null,
-            arrayBulan.indexOf(binding.edtBulan.text.toString()) + 1,
-            binding.edtTahun.text.toString().toInt()
         )
     }
 

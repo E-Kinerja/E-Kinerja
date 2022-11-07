@@ -13,6 +13,7 @@ import com.arya.e_kinerja.R
 import com.arya.e_kinerja.adapter.BawahanArrayAdapter
 import com.arya.e_kinerja.adapter.PenilaianAktivitasAdapter
 import com.arya.e_kinerja.data.Result
+import com.arya.e_kinerja.data.remote.response.DataItem
 import com.arya.e_kinerja.data.remote.response.GetTugasAktivitasResponse
 import com.arya.e_kinerja.databinding.FragmentPenilaianAktivitasBinding
 import com.arya.e_kinerja.utils.dateFormat
@@ -26,14 +27,8 @@ class PenilaianAktivitasFragment : Fragment() {
 
     private val viewModel: PenilaianAktivitasViewModel by viewModels()
 
-    private var currentBulan = dateFormat(null, "MM").toInt()
-    private var currentTahun = dateFormat(null, "yyyy").toInt()
-
     private lateinit var bawahanArrayAdapter: BawahanArrayAdapter
     private lateinit var penilaianAktivitasAdapter: PenilaianAktivitasAdapter
-
-    private var idPns: Int? = null
-    private var nip: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,24 +49,29 @@ class PenilaianAktivitasFragment : Fragment() {
     private fun setUpView() {
         observeGetListBawahan()
 
+        val currentBulan = dateFormat(null, "MM").toInt()
+        val currentTahun = dateFormat(null, "yyyy").toInt()
+
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
+
+        observePenilaianAktivitas()
     }
 
     private fun setUpRecyclerView() {
         penilaianAktivitasAdapter = PenilaianAktivitasAdapter()
 
         penilaianAktivitasAdapter.onCheckBoxClick = { getTugasAktivitasResponse: GetTugasAktivitasResponse, isChecked: Boolean ->
-            observePostVerifAktivitas(
-                (getTugasAktivitasResponse.id as Int), isChecked, (idPns as Int), currentBulan, currentTahun
-            )
+            observePostVerifAktivitas((getTugasAktivitasResponse.id as Int), isChecked)
         }
 
         penilaianAktivitasAdapter.onBtnEditClick = {
-            findNavController().navigate(
-                PenilaianAktivitasFragmentDirections
-                    .actionPenilaianAktivitasFragmentToInputAktivitasFragment(it, (nip as String))
-            )
+            viewModel.nip.observe(viewLifecycleOwner) { nip ->
+                findNavController().navigate(
+                    PenilaianAktivitasFragmentDirections
+                        .actionPenilaianAktivitasFragmentToInputAktivitasFragment(it, nip)
+                )
+            }
         }
 
         penilaianAktivitasAdapter.onBtnHapusClick = {
@@ -84,24 +84,23 @@ class PenilaianAktivitasFragment : Fragment() {
 
     private fun setUpAction() {
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
-            currentBulan = position + 1
-            observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+            viewModel.setBulan(position + 1)
+            viewModel.getLaporanAktivitas()
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->
-            currentTahun = adapterView.adapter.getItem(position) as Int
-            observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+            viewModel.setTahun(adapterView.adapter.getItem(position).toString().toInt())
+            viewModel.getLaporanAktivitas()
         }
 
         binding.edtBawahan.setOnItemClickListener { _, _, position, _ ->
-            val bawahan = bawahanArrayAdapter.getItem(position)
+            val bawahan = bawahanArrayAdapter.getItem(position) as DataItem
 
-            idPns = bawahan?.idPns
-            nip = bawahan?.nip
+            binding.edtBawahan.setText(bawahan.nama)
 
-            binding.edtBawahan.setText(bawahan?.nama)
-
-            observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+            viewModel.setIdPns(bawahan.idPns as Int)
+            viewModel.setNip(bawahan.nip as String)
+            viewModel.getLaporanAktivitas()
         }
     }
 
@@ -131,7 +130,7 @@ class PenilaianAktivitasFragment : Fragment() {
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+                        viewModel.getLaporanAktivitas()
                     }
                     is Result.Error -> {}
                 }
@@ -139,8 +138,8 @@ class PenilaianAktivitasFragment : Fragment() {
         }
     }
 
-    private fun observeGetTugasAktivitas(idPns: Int?, bulan: Int, tahun: Int) {
-        viewModel.getTugasAktivitas(idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
+    private fun observePenilaianAktivitas() {
+        viewModel.penilaianAktivitas.observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}
@@ -153,13 +152,13 @@ class PenilaianAktivitasFragment : Fragment() {
         }
     }
 
-    private fun observePostVerifAktivitas(id: Int, status: Boolean, idPns: Int, bulan: Int, tahun: Int) {
-        viewModel.postVerifTugasAktivitas(id, status, idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
+    private fun observePostVerifAktivitas(id: Int, status: Boolean) {
+        viewModel.postVerifTugasAktivitas(id, status).observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        observeGetTugasAktivitas(idPns, currentBulan, currentTahun)
+                        viewModel.getLaporanAktivitas()
                     }
                     is Result.Error -> {}
                 }

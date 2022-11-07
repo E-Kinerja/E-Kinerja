@@ -13,6 +13,7 @@ import com.arya.e_kinerja.R
 import com.arya.e_kinerja.adapter.TugasAktivitasAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentTugasAktivitasBinding
+import com.arya.e_kinerja.ui.main.MainActivity
 import com.arya.e_kinerja.utils.dateFormat
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,9 +24,6 @@ class TugasAktivitasFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TugasAktivitasViewModel by viewModels()
-
-    private var currentBulan = dateFormat(null, "MM").toInt()
-    private var currentTahun = dateFormat(null, "yyyy").toInt()
 
     private lateinit var tugasAktivitasAdapter: TugasAktivitasAdapter
 
@@ -43,17 +41,16 @@ class TugasAktivitasFragment : Fragment() {
         setUpView()
         setUpRecyclerView()
         setUpAction()
-
-        observeGetTugasAktivitas(
-            null,
-            resources.getStringArray(R.array.bulan).indexOf(binding.edtBulan.text.toString()) + 1,
-            binding.edtTahun.text.toString().toInt()
-        )
     }
 
     private fun setUpView() {
+        val currentBulan = dateFormat(null, "MM").toInt()
+        val currentTahun = dateFormat(null, "yyyy").toInt()
+
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
+
+        observeTugasAktivitas()
     }
 
     private fun setUpRecyclerView() {
@@ -76,16 +73,16 @@ class TugasAktivitasFragment : Fragment() {
 
     private fun setUpAction() {
         binding.edtBulan.setOnItemClickListener { _, _, position, _ ->
-            currentBulan = position + 1
-            observeGetTugasAktivitas(null, currentBulan, currentTahun)
+            viewModel.setBulan(position + 1)
+            viewModel.getTugasAktivitas()
         }
 
         binding.edtTahun.setOnItemClickListener { adapterView, _, position, _ ->
-            currentTahun = adapterView.adapter.getItem(position) as Int
-            observeGetTugasAktivitas(null, currentBulan, currentTahun)
+            viewModel.setTahun(adapterView.adapter.getItem(position).toString().toInt())
+            viewModel.getTugasAktivitas()
         }
 
-        binding.fabInputAktivitas.setOnClickListener {
+        (activity as MainActivity).onFabClick = {
             findNavController().navigate(
                 TugasAktivitasFragmentDirections
                     .actionTugasAktivitasFragmentToInputAktivitasFragment(null, "")
@@ -99,7 +96,7 @@ class TugasAktivitasFragment : Fragment() {
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        observeGetTugasAktivitas(null, currentBulan, currentTahun)
+                        viewModel.getTugasAktivitas()
                     }
                     is Result.Error -> {}
                 }
@@ -107,9 +104,8 @@ class TugasAktivitasFragment : Fragment() {
         }
     }
 
-    @Suppress("SameParameterValue")
-    private fun observeGetTugasAktivitas(idPns: Int?, bulan: Int, tahun: Int) {
-        viewModel.getTugasAktivitas(idPns, bulan, tahun).observe(viewLifecycleOwner) { result ->
+    private fun observeTugasAktivitas() {
+        viewModel.tugasAktivitas.observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {}

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHeaderMainBinding: NavHeaderMainBinding
     private lateinit var notificationWorker: NotificationWorker
 
+    var onFabClick: (() -> Unit)? = null
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,18 +57,24 @@ class MainActivity : AppCompatActivity() {
         navHeaderMainBinding = NavHeaderMainBinding.bind(navHeaderView)
 
         viewModel.getSession().observe(this) { session ->
-            setupNavDrawer(session.level.toString())
-            setupNavHeader(session.nip.toString(), session.namaJabatan.toString())
+            setUpNavDrawer(session.level.toString())
+            setUpNavHeader(session.nip.toString(), session.namaJabatan.toString())
         }
 
         navController.addOnDestinationChangedListener{ _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment, R.id.loginFragment -> {
                     binding.appBarMain.toolbar.gone()
+                    binding.appBarMain.fab.gone()
                     drawerLayout.close()
+                }
+                R.id.tugasAktivitasFragment, R.id.laporanAktivitasFragment -> {
+                    binding.appBarMain.fab.visible()
+                    setUpFab(destination.id)
                 }
                 else -> {
                     binding.appBarMain.toolbar.visible()
+                    binding.appBarMain.fab.gone()
                 }
             }
         }
@@ -75,10 +84,14 @@ class MainActivity : AppCompatActivity() {
             this,
             NotificationWorker.TYPE_REPEATING,
             NotificationWorker.MESSAGE_REPEATING
-            )
+        )
+
+        binding.appBarMain.fab.setOnClickListener {
+            onFabClick?.invoke()
+        }
     }
 
-    private fun setupNavDrawer(level: String) {
+    private fun setUpNavDrawer(level: String) {
         val menuResId = if (level == "3") {
             R.menu.activity_main_drawer_lv3
         } else {
@@ -113,9 +126,26 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    private fun setupNavHeader(nip: String, namaJabatan: String) {
+    private fun setUpNavHeader(nip: String, namaJabatan: String) {
         navHeaderMainBinding.tvNip.text = nip
         navHeaderMainBinding.tvNamaJabatan.text = namaJabatan
+    }
+
+    private fun setUpFab(id: Int) {
+        when (id) {
+            R.id.tugasAktivitasFragment -> {
+                binding.appBarMain.fab.apply {
+                    text = resources.getString(R.string.input_aktivitas)
+                    icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_fab_input)
+                }
+            }
+            R.id.laporanAktivitasFragment -> {
+                binding.appBarMain.fab.apply {
+                    text = resources.getString(R.string.print_aktivitas)
+                    icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_fab_print)
+                }
+            }
+        }
     }
 
     private fun logout(): Boolean {
@@ -134,5 +164,4 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
 }
