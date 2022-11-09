@@ -90,13 +90,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        notificationWorker = NotificationWorker()
-        notificationWorker.setRepeatingAlarm(
-            this,
-            NotificationWorker.TYPE_REPEATING,
-            "Isi Aktivitas"
-        )
-
         binding.appBarMain.fab.setOnClickListener {
             onFabClick?.invoke()
         }
