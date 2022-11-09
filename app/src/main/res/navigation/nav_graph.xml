@@ -89,4 +89,9 @@
             android:name="nip"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/pengaturanFragment"
+        android:name="com.arya.e_kinerja.ui.pengaturan.PengaturanFragment"
+        android:label="@string/pengaturan"
+        tools:layout="@layout/fragment_pengaturan" />
 </navigation>

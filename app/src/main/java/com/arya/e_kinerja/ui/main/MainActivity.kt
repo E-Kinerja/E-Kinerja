@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -24,6 +25,7 @@ import com.arya.e_kinerja.utils.visible
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +39,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var navHeaderView: View
     private lateinit var navHeaderMainBinding: NavHeaderMainBinding
+
     private lateinit var notificationWorker: NotificationWorker
+
+    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     var onFabClick: (() -> Unit)? = null
 
@@ -64,15 +69,21 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener{ _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment, R.id.loginFragment -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                     binding.appBarMain.toolbar.gone()
                     binding.appBarMain.fab.gone()
-                    drawerLayout.close()
                 }
                 R.id.tugasAktivitasFragment, R.id.laporanAktivitasFragment -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                     binding.appBarMain.fab.visible()
                     setUpFab(destination.id)
                 }
+                R.id.inputAktivitasFragment -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                    binding.appBarMain.fab.gone()
+                }
                 else -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                     binding.appBarMain.toolbar.visible()
                     binding.appBarMain.fab.gone()
                 }
@@ -83,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         notificationWorker.setRepeatingAlarm(
             this,
             NotificationWorker.TYPE_REPEATING,
-            NotificationWorker.MESSAGE_REPEATING
+            "Isi Aktivitas"
         )
 
         binding.appBarMain.fab.setOnClickListener {
@@ -107,13 +118,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.dashboardFragment,
                 R.id.tugasAktivitasFragment,
                 R.id.penilaianAktivitasFragment,
-                R.id.laporanAktivitasFragment
+                R.id.laporanAktivitasFragment,
+                R.id.pengaturanFragment
             )
         } else {
             setOf(
                 R.id.dashboardFragment,
                 R.id.tugasAktivitasFragment,
-                R.id.laporanAktivitasFragment
+                R.id.laporanAktivitasFragment,
+                R.id.pengaturanFragment
             )
         }
 

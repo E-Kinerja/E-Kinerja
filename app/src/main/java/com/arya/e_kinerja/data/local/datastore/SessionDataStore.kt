@@ -48,6 +48,18 @@ class SessionDataStore(private val context: Context) {
         }
     }
 
+    fun getNotifikasi(): Flow<Boolean> {
+        return context.dataStore.data.map { preferences ->
+            preferences[NOTIFIKASI_KEY] ?: false
+        }
+    }
+
+    suspend fun postNotifikasi(state: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[NOTIFIKASI_KEY] = state
+        }
+    }
+
     companion object {
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val ID_PNS = intPreferencesKey("id_pns")
@@ -58,5 +70,7 @@ class SessionDataStore(private val context: Context) {
         private val NAMA_JABATAN_KEY = stringPreferencesKey("nama_jabatan")
         private val UNIT_KERJA_KEY = stringPreferencesKey("unit_kerja")
         private val STATE_KEY = booleanPreferencesKey("state")
+
+        private val NOTIFIKASI_KEY = booleanPreferencesKey("notifikasi")
     }
 }

@@ -1,11 +1,13 @@
 package com.arya.e_kinerja.ui.laporan_aktivitas
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,8 @@ import com.arya.e_kinerja.adapter.LaporanAktivitasAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.databinding.FragmentLaporanAktivitasBinding
+import com.arya.e_kinerja.notification.NotificationWorker
+import com.arya.e_kinerja.ui.main.MainActivity
 import com.arya.e_kinerja.utils.dateFormat
 import com.arya.e_kinerja.utils.getNameOfTheMonth
 import com.arya.e_kinerja.utils.gone
@@ -40,8 +44,12 @@ class LaporanAktivitasFragment : Fragment() {
     private lateinit var laporanAktivitasAdapter: LaporanAktivitasAdapter
     private lateinit var sessionEntity: SessionEntity
 
+    private lateinit var notificationWorker: NotificationWorker
+
     private var isCardPejabatExpanded = false
     private var isCardPegawaiExpanded = false
+
+    private var fileName = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +59,7 @@ class LaporanAktivitasFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,6 +90,7 @@ class LaporanAktivitasFragment : Fragment() {
         binding.rvTugasAktivitas.adapter = laporanAktivitasAdapter
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setUpAction() {
         binding.tvPejabat.setOnClickListener {
             isCardPejabatExpanded = !isCardPejabatExpanded
@@ -125,9 +135,18 @@ class LaporanAktivitasFragment : Fragment() {
             viewModel.getLaporanAktivitas()
         }
 
-//        binding.fabPrintAktivitas.setOnClickListener {
-//            createPDF()
-//        }
+        (activity as MainActivity).onFabClick = {
+            createPDF()
+
+            notificationWorker = NotificationWorker()
+            notificationWorker.showAlarmNotification(
+                requireContext(),
+                NotificationWorker.TYPE_ONE_TIME,
+                "Download PDF",
+                NotificationWorker.ID_ONETIME,
+                fileName
+            )
+        }
     }
 
     private fun observeGetSession() {
@@ -185,7 +204,8 @@ class LaporanAktivitasFragment : Fragment() {
 
         // Create PDF using iText Library
         val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-        val file = File(filePath, "Laporan_Aktivitas_${bulan}_${currentTahun}.pdf")
+        fileName = "Laporan_Aktivitas_${bulan}_${currentTahun}_${waktu}.pdf"
+        val file = File(filePath, fileName)
         val outputStream = FileOutputStream(file)
 
         val paperSize = Rectangle(612F, 792F)

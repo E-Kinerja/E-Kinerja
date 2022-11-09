@@ -20,6 +20,10 @@
             android:id="@+id/laporanAktivitasFragment"
             android:icon="@drawable/ic_menu_laporan_aktivitas"
             android:title="@string/laporan_aktivitas" />
+        <item
+            android:id="@+id/pengaturanFragment"
+            android:icon="@drawable/ic_menu_pengaturan"
+            android:title="@string/pengaturan" />
     </group>
 
     <item

@@ -23,6 +23,14 @@ class Repository @Inject constructor(
         return sessionDataStore.deleteSession()
     }
 
+    fun getNotifikasi(): LiveData<Boolean> {
+        return sessionDataStore.getNotifikasi().asLiveData()
+    }
+
+    suspend fun postNotifikasi(state: Boolean) {
+        sessionDataStore.postNotifikasi(state)
+    }
+
     fun postLogin(
         username: String,
         password: String
@@ -46,6 +54,7 @@ class Repository @Inject constructor(
                     true
                 )
             )
+            sessionDataStore.postNotifikasi(false)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
