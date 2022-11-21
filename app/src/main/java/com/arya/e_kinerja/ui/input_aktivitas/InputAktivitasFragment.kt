@@ -15,10 +15,10 @@ import com.arya.e_kinerja.adapter.AktivitasArrayAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentInputAktivitasBinding
 import com.arya.e_kinerja.ui.main.MainActivity
-import com.arya.e_kinerja.utils.createLoadingDialog
+import com.arya.e_kinerja.views.createLoadingDialog
 import com.arya.e_kinerja.utils.dateFormat
-import com.arya.e_kinerja.utils.openMaterialDatePicker
-import com.arya.e_kinerja.utils.openMaterialTimePicker
+import com.arya.e_kinerja.views.openMaterialDatePicker
+import com.arya.e_kinerja.views.openMaterialTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

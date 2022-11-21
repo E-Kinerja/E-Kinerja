@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,12 +18,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.databinding.ActivityMainBinding
 import com.arya.e_kinerja.databinding.NavHeaderMainBinding
-import com.arya.e_kinerja.notification.NotificationWorker
+import com.arya.e_kinerja.receiver.AlarmReceiver
 import com.arya.e_kinerja.utils.gone
 import com.arya.e_kinerja.utils.visible
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -40,9 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHeaderView: View
     private lateinit var navHeaderMainBinding: NavHeaderMainBinding
 
-    private lateinit var notificationWorker: NotificationWorker
-
-    private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var alarmReceiver: AlarmReceiver
 
     var onFabClick: (() -> Unit)? = null
 
@@ -75,11 +71,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.tugasAktivitasFragment, R.id.laporanAktivitasFragment -> {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                    binding.appBarMain.toolbar.visible()
                     binding.appBarMain.fab.visible()
                     setUpFab(destination.id)
                 }
                 R.id.inputAktivitasFragment -> {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                    binding.appBarMain.toolbar.visible()
                     binding.appBarMain.fab.gone()
                 }
                 else -> {
@@ -95,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setUpNavDrawer(level: String) {
         val menuResId = if (level == "3") {
             R.menu.activity_main_drawer_lv3
@@ -154,7 +153,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun logout(): Boolean {
+        alarmReceiver = AlarmReceiver()
+        alarmReceiver.cancelReminderAlarm(this)
+
+        viewModel.postNotifikasi(false)
         viewModel.deleteSession()
 
         navController.navigate(

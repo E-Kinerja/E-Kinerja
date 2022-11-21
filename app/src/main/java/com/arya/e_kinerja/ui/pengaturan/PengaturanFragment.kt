@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.arya.e_kinerja.databinding.FragmentPengaturanBinding
-import com.arya.e_kinerja.notification.NotificationWorker
+import com.arya.e_kinerja.receiver.AlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +20,7 @@ class PengaturanFragment : Fragment() {
 
     private val viewModel: PengaturanViewModel by viewModels()
 
-    private lateinit var notificationWorker: NotificationWorker
+    private lateinit var alarmReceiver: AlarmReceiver
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,19 +47,12 @@ class PengaturanFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setUpAction() {
         binding.switchNotifikasi.setOnCheckedChangeListener { _, isChecked ->
-            notificationWorker = NotificationWorker()
+            alarmReceiver = AlarmReceiver()
 
             if (isChecked) {
-                notificationWorker.setRepeatingAlarm(
-                    requireContext(),
-                    NotificationWorker.TYPE_REPEATING,
-                    "Isi Aktivitas"
-                )
+                alarmReceiver.setReminderAlarm(requireContext())
             } else {
-                notificationWorker.cancelAlarm(
-                    requireContext(),
-                    NotificationWorker.TYPE_REPEATING
-                )
+                alarmReceiver.cancelReminderAlarm(requireContext())
             }
 
             binding.switchNotifikasi.isChecked = isChecked

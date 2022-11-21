@@ -16,7 +16,7 @@ import com.arya.e_kinerja.adapter.LaporanAktivitasAdapter
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.databinding.FragmentLaporanAktivitasBinding
-import com.arya.e_kinerja.notification.NotificationWorker
+import com.arya.e_kinerja.receiver.AlarmReceiver
 import com.arya.e_kinerja.ui.main.MainActivity
 import com.arya.e_kinerja.utils.dateFormat
 import com.arya.e_kinerja.utils.getNameOfTheMonth
@@ -44,7 +44,7 @@ class LaporanAktivitasFragment : Fragment() {
     private lateinit var laporanAktivitasAdapter: LaporanAktivitasAdapter
     private lateinit var sessionEntity: SessionEntity
 
-    private lateinit var notificationWorker: NotificationWorker
+    private lateinit var alarmReceiver: AlarmReceiver
 
     private var isCardPejabatExpanded = false
     private var isCardPegawaiExpanded = false
@@ -138,12 +138,12 @@ class LaporanAktivitasFragment : Fragment() {
         (activity as MainActivity).onFabClick = {
             createPDF()
 
-            notificationWorker = NotificationWorker()
-            notificationWorker.showAlarmNotification(
+            alarmReceiver = AlarmReceiver()
+            alarmReceiver.showAlarmNotification(
                 requireContext(),
-                NotificationWorker.TYPE_ONE_TIME,
-                "Download PDF",
-                NotificationWorker.ID_ONETIME,
+                "Laporan aktivitas berhasil disimpan",
+                "Ketuk di sini untuk melihat laporan aktivitas anda",
+                AlarmReceiver.ID_DOWNLOAD,
                 fileName
             )
         }

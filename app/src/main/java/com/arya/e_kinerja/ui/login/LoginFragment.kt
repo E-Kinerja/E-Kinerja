@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentLoginBinding
-import com.arya.e_kinerja.utils.createLoadingDialog
+import com.arya.e_kinerja.views.createLoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

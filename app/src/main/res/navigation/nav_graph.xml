@@ -20,6 +20,15 @@
             app:destination="@id/dashboardFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_tugasAktivitasFragment"
+            app:destination="@id/tugasAktivitasFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="notifikasi"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
 
     <fragment
@@ -89,6 +98,7 @@
             android:name="nip"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/pengaturanFragment"
         android:name="com.arya.e_kinerja.ui.pengaturan.PengaturanFragment"

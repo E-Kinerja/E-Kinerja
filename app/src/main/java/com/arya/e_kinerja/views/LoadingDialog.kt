@@ -1,4 +1,4 @@
-package com.arya.e_kinerja.utils
+package com.arya.e_kinerja.views
 
 import android.app.Dialog
 import android.content.Context

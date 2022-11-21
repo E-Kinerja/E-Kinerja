@@ -23,4 +23,10 @@ class MainViewModel @Inject constructor(
             repository.deleteSession()
         }
     }
+
+    fun postNotifikasi(state: Boolean) {
+        viewModelScope.launch {
+            repository.postNotifikasi(state)
+        }
+    }
 }

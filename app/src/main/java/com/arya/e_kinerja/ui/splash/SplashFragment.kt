@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ class SplashFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SplashViewModel by viewModels()
+    private val args: SplashFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +41,15 @@ class SplashFragment : Fragment() {
         viewModel.getSession().observe(viewLifecycleOwner) { session ->
             Handler(Looper.getMainLooper()).postDelayed({
                 if (session.state == true) {
-                    findNavController().navigate(
-                        R.id.action_splashFragment_to_dashboardFragment
-                    )
+                    if (args.notifikasi == "") {
+                        findNavController().navigate(
+                            R.id.action_splashFragment_to_dashboardFragment
+                        )
+                    } else {
+                        findNavController().navigate(
+                            R.id.action_splashFragment_to_tugasAktivitasFragment
+                        )
+                    }
                 } else {
                     findNavController().navigate(
                         R.id.action_splashFragment_to_loginFragment

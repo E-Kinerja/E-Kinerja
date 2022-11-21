@@ -1,6 +1,7 @@
-package com.arya.e_kinerja.utils
+package com.arya.e_kinerja.views
 
 import androidx.fragment.app.FragmentManager
+import com.arya.e_kinerja.utils.getMaximumDayOfMonth
 import com.google.android.material.datepicker.*
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
@@ -57,7 +58,7 @@ private fun setMinMaxDate(calendar: Calendar): Pair<Calendar, Calendar> {
             minDate.set(year, month, 15)
             maxDate.set(year, month, 23)
         }
-        in 23..31 -> {
+        in 23..getMaximumDayOfMonth() -> {
             minDate.set(year, month, 22)
             maxDate.set(year, month + 1, 1)
         }
@@ -82,6 +83,7 @@ private fun getCalendarConstraints(
         add(dateValidatorMin)
         add(dateValidatorMax)
     }
+
     val validators = CompositeDateValidator.allOf(listValidators)
 
     return CalendarConstraints.Builder()

@@ -28,7 +28,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
         <receiver
-            android:name=".notification.NotificationWorker"
+            android:name=".receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <activity
