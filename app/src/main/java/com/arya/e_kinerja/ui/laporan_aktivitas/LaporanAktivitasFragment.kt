@@ -241,7 +241,7 @@ class LaporanAktivitasFragment : Fragment() {
         table1.addCell(createCell(Phrase("NIP Atasan", normalFont), null, alignLeft, null, 5F, null, null))
 
         table1.addCell(createCell(Phrase("Jabatan", normalFont), null, alignLeft, null, 5F, null, null))
-        table1.addCell(createCell(Phrase(sessionEntity.nama.toString(), normalFont), null, alignLeft, null, 5F, null, null))
+        table1.addCell(createCell(Phrase(sessionEntity.namaJabatan.toString(), normalFont), null, alignLeft, null, 5F, null, null))
 
         table1.addCell(createCell(Phrase("Jabatan", normalFont), null, alignLeft, null, 5F, null, 2))
         table1.addCell(createCell(Phrase("Jabatan Atasan", normalFont), null, alignLeft, null, 5F, null, 2))
