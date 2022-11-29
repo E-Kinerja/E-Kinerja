@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:dropDownHeight="118dp"
+            android:dropDownHeight="236dp"
             android:hint="@null"
             android:inputType="none"
             android:padding="16dp"
