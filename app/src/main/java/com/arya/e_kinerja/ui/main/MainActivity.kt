@@ -95,31 +95,37 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setUpNavDrawer(level: String) {
-        val menuResId = if (level == "3") {
-            R.menu.activity_main_drawer_lv3
-        } else {
-            R.menu.activity_main_drawer_lv4
+        val menuResId = when (level) {
+            "1", "2", "3" -> {
+                R.menu.activity_main_drawer_lv3
+            }
+            else -> {
+                R.menu.activity_main_drawer_lv4
+            }
         }
 
         navView.menu.clear()
         navView.inflateMenu(menuResId)
         navView.menu.findItem(R.id.logout).setOnMenuItemClickListener { logout() }
 
-        val topLevelDestinationIds = if (level == "3") {
-            setOf(
-                R.id.dashboardFragment,
-                R.id.tugasAktivitasFragment,
-                R.id.penilaianAktivitasFragment,
-                R.id.laporanAktivitasFragment,
-                R.id.pengaturanFragment
-            )
-        } else {
-            setOf(
-                R.id.dashboardFragment,
-                R.id.tugasAktivitasFragment,
-                R.id.laporanAktivitasFragment,
-                R.id.pengaturanFragment
-            )
+        val topLevelDestinationIds = when (level) {
+            "1", "2", "3" -> {
+                setOf(
+                    R.id.dashboardFragment,
+                    R.id.tugasAktivitasFragment,
+                    R.id.penilaianAktivitasFragment,
+                    R.id.laporanAktivitasFragment,
+                    R.id.pengaturanFragment
+                )
+            }
+            else -> {
+                setOf(
+                    R.id.dashboardFragment,
+                    R.id.tugasAktivitasFragment,
+                    R.id.laporanAktivitasFragment,
+                    R.id.pengaturanFragment
+                )
+            }
         }
 
         appBarConfiguration = AppBarConfiguration(
