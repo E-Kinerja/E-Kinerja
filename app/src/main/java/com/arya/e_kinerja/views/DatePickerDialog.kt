@@ -30,7 +30,7 @@ fun openMaterialDatePicker(
 
     datePicker.addOnPositiveButtonClickListener {
         val formatter =
-            SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date(it))
+            SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(Date(it))
         textInputEditText.setText(formatter)
     }
 

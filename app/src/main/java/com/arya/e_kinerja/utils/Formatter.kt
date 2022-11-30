@@ -15,8 +15,8 @@ fun dateFormat(source: String?, pattern: String): String {
 
 fun dateTimeFormat(date: String, start: String?, end: String?, duration: String): String {
     return if (start != null && end != null) {
-        "$date • ${dateFormat(start, "HH:mm")} - ${dateFormat(end, "HH:mm")} ( $duration Menit )"
+        "${dateFormat(date, "dd-MM-yyyy")} • ${dateFormat(start, "HH:mm")} - ${dateFormat(end, "HH:mm")} ( $duration Menit )"
     } else {
-        "$date • $duration Menit"
+        "${dateFormat(date, "dd-MM-yyyy")} • $duration Menit"
     }
 }
