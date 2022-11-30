@@ -69,7 +69,7 @@ class Repository @Inject constructor(
                     emit(Result.Error(customErrorResponse?.message.toString()))
                 }
                 is IOException -> {
-                    emit(Result.Error("Tolong cek koneksi internetmu"))
+                    emit(Result.Error("Tolong cek koneksi internet anda"))
                 }
                 else -> {
                     emit(Result.Error("Terjadi kesalahan"))
