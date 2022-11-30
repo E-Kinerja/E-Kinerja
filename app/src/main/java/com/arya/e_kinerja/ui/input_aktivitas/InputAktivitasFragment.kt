@@ -94,7 +94,7 @@ class InputAktivitasFragment : Fragment() {
         }
 
         binding.btnSimpan.setOnClickListener {
-            val tanggal = dateFormat(binding.edtTanggal.text.toString(), "yyyy-MM-dd")
+            val tanggal = binding.edtTanggal.text.toString()
             val catatan = binding.edtCatatan.text.toString()
             val output = "${binding.edtOutput.text.toString()} ${binding.edtSatuan.text.toString()}"
             val jamMulai = binding.edtJamMulai.text.toString()
