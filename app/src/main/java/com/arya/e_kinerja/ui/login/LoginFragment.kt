@@ -12,7 +12,9 @@ import androidx.navigation.fragment.findNavController
 import com.arya.e_kinerja.R
 import com.arya.e_kinerja.data.Result
 import com.arya.e_kinerja.databinding.FragmentLoginBinding
+import com.arya.e_kinerja.utils.showSnackBar
 import com.arya.e_kinerja.views.createLoadingDialog
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -83,6 +85,13 @@ class LoginFragment : Fragment() {
                     }
                     is Result.Error -> {
                         loadingDialog.dismiss()
+
+                        val errorMessage = if (result.error == "Unauthorized") {
+                            "Username / Password Anda salah!"
+                        } else {
+                            result.error
+                        }
+                        binding.root.showSnackBar(errorMessage, Snackbar.LENGTH_SHORT, null, null) {}
                     }
                 }
             }
