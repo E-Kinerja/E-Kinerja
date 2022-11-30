@@ -7,7 +7,11 @@ import com.arya.e_kinerja.data.local.datastore.SessionDataStore
 import com.arya.e_kinerja.data.local.entity.SessionEntity
 import com.arya.e_kinerja.data.remote.response.*
 import com.arya.e_kinerja.data.remote.retrofit.ApiService
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.*
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -57,7 +61,20 @@ class Repository @Inject constructor(
             sessionDataStore.postNotifikasi(false)
             emit(Result.Success(response))
         } catch (e: Exception) {
-            emit(Result.Error(e.message.toString()))
+            when (e) {
+                is HttpException -> {
+                    val type = object : TypeToken<CustomErrorResponse>() {}.type
+                    val customErrorResponse: CustomErrorResponse? =
+                        Gson().fromJson(e.response()?.errorBody()?.charStream(), type)
+                    emit(Result.Error(customErrorResponse?.message.toString()))
+                }
+                is IOException -> {
+                    emit(Result.Error("Tolong cek koneksi internetmu"))
+                }
+                else -> {
+                    emit(Result.Error("Terjadi kesalahan"))
+                }
+            }
         }
     }
 

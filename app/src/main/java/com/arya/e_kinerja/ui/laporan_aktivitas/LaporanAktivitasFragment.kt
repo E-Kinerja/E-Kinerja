@@ -269,8 +269,8 @@ class LaporanAktivitasFragment : Fragment() {
 
             table2.addCell(createCell(Phrase("$i", normalFont), null, alignCenter, null, 5F, null, null))
             table2.addCell(createCell(Phrase(tglAkt, normalFont), null, alignCenter, null, 5F, null, null))
-            table2.addCell(createCell(Phrase(aktivitas, normalFont), null, alignCenter, null, 5F, null, null))
-            table2.addCell(createCell(Phrase(output, normalFont), null, alignCenter, null, 5F, null, null))
+            table2.addCell(createCell(Phrase(aktivitas, normalFont), null, alignLeft, null, 5F, null, null))
+            table2.addCell(createCell(Phrase(output, normalFont), null, alignLeft, null, 5F, null, null))
             table2.addCell(createCell(Phrase(durasi, normalFont), null, alignCenter, null, 5F, null, null))
         }
 

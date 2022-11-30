@@ -2,6 +2,7 @@ package com.arya.e_kinerja.ui.main
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
