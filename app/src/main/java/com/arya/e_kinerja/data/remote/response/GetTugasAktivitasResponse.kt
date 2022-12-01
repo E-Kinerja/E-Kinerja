@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
+import java.io.Serializable
 
 @Parcelize
 data class GetTugasAktivitasResponse(
@@ -58,7 +59,7 @@ data class Aktivitas(
 
 	@field:SerializedName("bk_satuan_output")
 	val bkSatuanOutput: String? = null
-)
+): Serializable
 
 //data class Aktivitas(
 //
