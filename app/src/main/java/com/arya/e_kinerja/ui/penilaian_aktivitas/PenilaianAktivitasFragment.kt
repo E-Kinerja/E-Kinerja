@@ -49,8 +49,8 @@ class PenilaianAktivitasFragment : Fragment() {
     private fun setUpView() {
         observeGetListBawahan()
 
-        val currentBulan = dateFormat(null, "MM").toInt()
-        val currentTahun = dateFormat(null, "yyyy").toInt()
+        val currentBulan = dateFormat(null, "MM", null).toInt()
+        val currentTahun = dateFormat(null, "yyyy", null).toInt()
 
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())

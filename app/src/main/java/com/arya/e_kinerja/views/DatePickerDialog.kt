@@ -15,8 +15,8 @@ fun openMaterialDatePicker(
     val calendar = Calendar.getInstance()
 
     if (currentDate != "") {
-        val (year, month, date) = currentDate.split("-")
-        calendar.set(year.toInt(), month.toInt() - 1, date.toInt())
+        val (date, month, year) = currentDate.split("-")
+        calendar.set(year.toInt(), (month.toInt() - 1), date.toInt())
     }
 
     val datePicker =
@@ -30,7 +30,7 @@ fun openMaterialDatePicker(
 
     datePicker.addOnPositiveButtonClickListener {
         val formatter =
-            SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date(it))
+            SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(Date(it))
         textInputEditText.setText(formatter)
     }
 

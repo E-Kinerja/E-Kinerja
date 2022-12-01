@@ -63,13 +63,13 @@ class InputAktivitasFragment : Fragment() {
             idTugasAktivitas = args.tugasAktivitas?.id as Int
             idAktivitas = args.tugasAktivitas?.aktivitas?.id
 
-            binding.edtTanggal.setText(args.tugasAktivitas?.tglakt)
+            binding.edtTanggal.setText(dateFormat(args.tugasAktivitas?.tglakt, "yyyy-MM-dd", "dd-MM-yyyy"))
             binding.edtAktivitas.setText(args.tugasAktivitas?.aktivitas?.bkNamaKegiatan)
             binding.edtCatatan.setText(args.tugasAktivitas?.detailakt)
             binding.edtOutput.setText(args.tugasAktivitas?.output?.split(" ")?.get(0))
             binding.edtSatuan.setText(args.tugasAktivitas?.aktivitas?.bkSatuanOutput)
-            binding.edtJamMulai.setText(dateFormat(args.tugasAktivitas?.jammulai, "HH:mm"))
-            binding.edtJamBerakhir.setText(dateFormat(args.tugasAktivitas?.jamselesai, "HH:mm"))
+            binding.edtJamMulai.setText(dateFormat(args.tugasAktivitas?.jammulai, "HH:mm:ss", "HH:mm"))
+            binding.edtJamBerakhir.setText(dateFormat(args.tugasAktivitas?.jamselesai, "HH:mm:ss", "HH:mm"))
             binding.btnSimpan.text = resources.getString(R.string.update)
         }
     }
@@ -94,7 +94,7 @@ class InputAktivitasFragment : Fragment() {
         }
 
         binding.btnSimpan.setOnClickListener {
-            val tanggal = binding.edtTanggal.text.toString()
+            val tanggal = dateFormat(binding.edtTanggal.text.toString(), "dd-MM-yyyy", "yyyy-MM-dd")
             val catatan = binding.edtCatatan.text.toString()
             val output = "${binding.edtOutput.text.toString()} ${binding.edtSatuan.text.toString()}"
             val jamMulai = binding.edtJamMulai.text.toString()

@@ -34,8 +34,8 @@ class PenilaianAktivitasViewModel @Inject constructor(
     val nip: LiveData<String> = _nip
 
     init {
-        _bulan.value = dateFormat(null, "MM").toInt()
-        _tahun.value = dateFormat(null, "yyyy").toInt()
+        _bulan.value = dateFormat(null, "MM", null).toInt()
+        _tahun.value = dateFormat(null, "yyyy", null).toInt()
     }
 
     fun setIdPns(idPns: Int) {

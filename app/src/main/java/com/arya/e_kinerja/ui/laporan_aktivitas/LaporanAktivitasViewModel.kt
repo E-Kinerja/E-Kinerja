@@ -27,8 +27,8 @@ class LaporanAktivitasViewModel @Inject constructor(
     private val tahun: LiveData<Int> = _tahun
 
     init {
-        _bulan.value = dateFormat(null, "MM").toInt()
-        _tahun.value = dateFormat(null, "yyyy").toInt()
+        _bulan.value = dateFormat(null, "MM", null).toInt()
+        _tahun.value = dateFormat(null, "yyyy", null).toInt()
 
         getLaporanAktivitas()
     }

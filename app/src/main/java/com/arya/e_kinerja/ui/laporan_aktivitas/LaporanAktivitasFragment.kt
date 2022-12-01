@@ -72,8 +72,8 @@ class LaporanAktivitasFragment : Fragment() {
         observeGetSession()
         observeGetTotalAktivitas()
 
-        val currentBulan = dateFormat(null, "MM").toInt()
-        val currentTahun = dateFormat(null, "yyyy").toInt()
+        val currentBulan = dateFormat(null, "MM", null).toInt()
+        val currentTahun = dateFormat(null, "yyyy", null).toInt()
 
         binding.edtTahun.setText(currentTahun.toString())
         binding.edtBulan.setText(resources.getStringArray(R.array.bulan)[currentBulan - 1].toString())
@@ -190,8 +190,8 @@ class LaporanAktivitasFragment : Fragment() {
     }
 
     private fun createPDF() {
-        val currentBulan = dateFormat(null, "MM").toInt()
-        val currentTahun = dateFormat(null, "yyyy").toInt()
+        val currentBulan = dateFormat(null, "MM", null).toInt()
+        val currentTahun = dateFormat(null, "yyyy", null).toInt()
 
         val bulan = resources.getStringArray(R.array.bulan)[currentBulan - 1].toString()
 
